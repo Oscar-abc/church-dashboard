@@ -26,7 +26,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
     setActiveDropdown(null); // 點選功能後自動把選單收起來
   };
 
-  // 【貼心功能】當使用者點擊網頁其他空白處時，自動把下拉選單收起來
+  // 當使用者點擊網頁其他空白處時，自動把下拉選單收起來
   useEffect(() => {
     function handleClickOutside(event) {
       if (navbarRef.current && !navbarRef.current.contains(event.target)) {
@@ -37,8 +37,11 @@ export default function Navbar({ currentTab, setCurrentTab }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // 判斷該牧區按鈕目前是否處於被選取狀態
-  const isCategoryActive = (prefix) => currentTab.startsWith(prefix);
+  // 【核心修正】判斷該牧區按鈕是否該亮粉紅色底色
+  // 條件：目前畫面顯示該牧區 (currentTab 吻合) OR 目前使用者正點開該牧區的下拉選單 (activeDropdown 吻合)
+  const isCategoryActive = (prefix) => {
+    return currentTab.startsWith(prefix) || activeDropdown === prefix;
+  };
 
   return (
     <header className="bg-[#F4D03F] shadow-md sticky top-0 z-50 px-6 py-3 select-none" ref={navbarRef}>
@@ -46,15 +49,22 @@ export default function Navbar({ currentTab, setCurrentTab }) {
         
         {/* 左側 Logo 與標題 */}
         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleTabClick('home')}>
+          {/* 自動讀取 public/church-logo.png, 如果沒有就顯示備用教堂圖示 */}
           <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden border border-amber-200">
-            <span className="font-black text-[#E6007E] text-base">⛪</span>
+            <img 
+              src="/church-logo.png" 
+              alt="Logo" 
+              className="w-full h-full object-cover"
+              onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
+            />
+            <span className="font-black text-[#E6007E] text-base hidden">⛪</span>
           </div>
           <h1 className="text-lg font-black text-slate-800 tracking-wider">
             台中行道會教會系統
           </h1>
         </div>
 
-        {/* 中央主選單（全面升級為點擊固定機制） */}
+        {/* 中央主選單 */}
         <nav className="flex items-center space-x-2 font-bold text-xs">
           <button
             onClick={() => handleTabClick('home')}
