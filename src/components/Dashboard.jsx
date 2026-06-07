@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Dashboard() {
-  // 原有的核心數據指標資料
+  // 1. 核心數據指標資料
   const metrics = [
     { title: '弟兄新員', value: '1', target: '200', percentage: '1%', color: 'border-blue-500 text-blue-600', progressColor: '#3B82F6' },
     { title: '弟兄會費', value: '229', target: '1,597', percentage: '14%', color: 'border-blue-600 text-blue-700', progressColor: '#2563EB' },
@@ -15,7 +15,7 @@ export default function Dashboard() {
     { title: '姊妹贈經', value: '0', target: '34,060', percentage: '0%', color: 'border-slate-400 text-slate-500', progressColor: '#94A3B8' },
   ];
 
-  // 模擬本週焦點即時動態資料
+  // 2. 本週焦點資料
   const thisWeekService = [
     { role: '本週講員', name: '張茂松 牧師', status: '已確認' },
     { role: '主日主領', name: '陳冠宏 弟兄', status: '已確認' },
@@ -31,6 +31,20 @@ export default function Dashboard() {
   const prayers = [
     { id: 1, tag: '緊急代禱', content: '為成人牧區建國弟兄下週的手術順利與身體復原禱告，求神保守。', time: '2小時前' },
     { id: 2, tag: '事工代禱', content: '為暑期兒童聖經營的同工招募與教案籌備守望，目前仍缺2位輔導。', time: '今天上午' },
+  ];
+
+  // 3. 【新資料】過去四週三大牧區出席趨勢資料
+  const attendanceTrends = [
+    { week: 'W1 (上上上週)', adult: 210, youth: 85, children: 45 },
+    { week: 'W2 (上上週)', adult: 225, youth: 92, children: 42 },
+    { week: 'W3 (上週)', adult: 198, youth: 78, children: 48 },
+    { week: 'W4 (本週主日)', adult: 220, youth: 95, children: 50 },
+  ];
+
+  // 4. 【新資料】連續未出席關懷名單（黃金警訊）
+  const warningList = [
+    { name: '王小芬', zone: '成人牧區', group: '喜樂小組', missedWeeks: 3, lastAttended: '2026/05/17', status: '未聯繫', phone: '0945-678901' },
+    { name: '李大同', zone: '青年牧區', group: '約書亞小組', missedWeeks: 4, lastAttended: '2026/05/10', status: '已約探訪', phone: '0911-222333' },
   ];
 
   return (
@@ -55,13 +69,12 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 數據指標卡片區（10格精美圓圈卡片） */}
+      {/* 數據指標卡片區 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {metrics.map((m, idx) => (
           <div key={idx} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center justify-between min-h-[180px] hover:shadow-md transition-shadow">
             <span className="text-xs font-black text-slate-500 mb-2">{m.title}</span>
             <div className="relative w-20 h-20 flex items-center justify-center">
-              {/* 簡單的圓圈進度條背景 */}
               <svg className="w-full h-full transform -rotate-90">
                 <circle cx="40" cy="40" r="34" stroke="#F1F5F9" strokeWidth="6" fill="transparent" />
                 <circle cx="40" cy="40" r="34" stroke={m.progressColor} strokeWidth="6" fill="transparent" 
@@ -111,16 +124,13 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ==================== 【新亮點：1. 本週焦點即時動態】 ==================== */}
+      {/* 區塊 1：本週焦點即時動態 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
         {/* A. 本週主日服事表 */}
         <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xs font-black text-slate-800 tracking-wider flex items-center">
-                📋 本週主日服事輪值
-              </h3>
+              <h3 className="text-xs font-black text-slate-800 tracking-wider flex items-center">📋 本週主日服事輪值</h3>
               <span className="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">本週日 09:30</span>
             </div>
             <div className="space-y-2.5">
@@ -137,19 +147,14 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-          <button 
-            onClick={() => alert('已自動產生本週服事提醒，並透過 LINE Notify 發送給相關同工！')}
-            className="w-full mt-4 bg-[#E6007E] hover:bg-[#c4006b] text-white font-bold text-xs py-2 rounded-lg transition-colors flex items-center justify-center space-x-1"
-          >
+          <button onClick={() => alert('已透過 LINE 通知服事同工！')} className="w-full mt-4 bg-[#E6007E] hover:bg-[#c4006b] text-white font-bold text-xs py-2 rounded-lg transition-colors flex items-center justify-center space-x-1">
             💬 一鍵 LINE 提醒通知同工
           </button>
         </div>
 
         {/* B. 近期核心事工進度 */}
         <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-          <h3 className="text-xs font-black text-slate-800 tracking-wider mb-4 flex items-center">
-            🚀 核心培育事工倒數
-          </h3>
+          <h3 className="text-xs font-black text-slate-800 tracking-wider mb-4 flex items-center">🚀 核心培育事工倒數</h3>
           <div className="space-y-4">
             {incomingEvents.map((e, idx) => {
               const progressPercent = Math.min(100, (e.registered / e.max) * 100);
@@ -157,20 +162,14 @@ export default function Dashboard() {
                 <div key={idx} className="space-y-1.5">
                   <div className="flex justify-between items-center">
                     <span className="text-xs font-black text-slate-800">{e.name}</span>
-                    <span className="text-[10px] text-rose-600 font-black bg-rose-50 px-2 py-0.5 rounded">
-                      倒數 {e.daysLeft} 天
-                    </span>
+                    <span className="text-[10px] text-rose-600 font-black bg-rose-50 px-2 py-0.5 rounded">倒數 {e.daysLeft} 天</span>
                   </div>
                   <div className="flex justify-between text-[10px] text-gray-400 font-bold">
                     <span>開課日: {e.date}</span>
                     <span className="text-slate-700">已報名 {e.registered}/{e.max} 人</span>
                   </div>
-                  {/* 進度條外殼 */}
                   <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
-                    <div 
-                      className="bg-gradient-to-r from-amber-400 to-[#E6007E] h-full transition-all duration-500"
-                      style={{ width: `${progressPercent}%` }}
-                    />
+                    <div className="bg-gradient-to-r from-amber-400 to-[#E6007E] h-full transition-all duration-500" style={{ width: `${progressPercent}%` }} />
                   </div>
                 </div>
               );
@@ -180,9 +179,7 @@ export default function Dashboard() {
 
         {/* C. 今日緊急代禱牆 */}
         <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-          <h3 className="text-xs font-black text-slate-800 tracking-wider mb-4 flex items-center">
-            🙏 今日守望代禱牆
-          </h3>
+          <h3 className="text-xs font-black text-slate-800 tracking-wider mb-4 flex items-center">🙏 今日守望代禱牆</h3>
           <div className="space-y-3">
             {prayers.map((p) => (
               <div key={p.id} className="p-3 bg-amber-50/40 rounded-xl border border-amber-100/70 space-y-1">
@@ -192,12 +189,93 @@ export default function Dashboard() {
                   </span>
                   <span className="text-[10px] text-gray-400 font-medium">{p.time}</span>
                 </div>
-                <p className="text-xs font-bold text-slate-700 leading-relaxed">
-                  {p.content}
-                </p>
+                <p className="text-xs font-bold text-slate-700 leading-relaxed">{p.content}</p>
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* ==================== 【新亮點：2. 聚會出席趨勢與健康警訊】 ==================== */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* A+B. 三大牧區出席波形圖（合併佔用2個寬度欄位） */}
+        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 lg:col-span-2">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xs font-black text-slate-800 tracking-wider flex items-center">
+              📊 牧區出席波動趨勢（過去 4 週）
+            </h3>
+            <div className="flex space-x-3 text-[10px] font-bold">
+              <span className="flex items-center text-slate-800"><span className="w-2.5 h-2.5 bg-slate-900 rounded-full mr-1"></span> 成人</span>
+              <span className="flex items-center text-[#E6007E]"><span className="w-2.5 h-2.5 bg-[#E6007E] rounded-full mr-1"></span> 青年</span>
+              <span className="flex items-center text-amber-500"><span className="w-2.5 h-2.5 bg-amber-500 rounded-full mr-1"></span> 兒童</span>
+            </div>
+          </div>
+          
+          {/* 用極具質感的進度條矩陣模擬折線波動圖 */}
+          <div className="grid grid-cols-4 gap-4 pt-2">
+            {attendanceTrends.map((t, idx) => (
+              <div key={idx} className="bg-gray-50/80 p-3 rounded-xl border border-gray-100 flex flex-col justify-between space-y-2">
+                <span className="text-[10px] font-black text-gray-400 text-center block border-b border-gray-200 pb-1">{t.week}</span>
+                
+                <div className="space-y-2 text-[10px] font-bold">
+                  <div>
+                    <div className="flex justify-between text-slate-700"><span>成人</span><span>{t.adult}人</span></div>
+                    <div className="w-full bg-gray-200 h-1.5 rounded-full mt-0.5"><div className="bg-slate-900 h-full rounded-full" style={{ width: `${(t.adult/250)*100}%` }} /></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-[#E6007E]"><span>青年</span><span>{t.youth}人</span></div>
+                    <div className="w-full bg-gray-200 h-1.5 rounded-full mt-0.5"><div className="bg-[#E6007E] h-full rounded-full" style={{ width: `${(t.youth/120)*100}%` }} /></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-amber-600"><span>兒童</span><span>{t.children}人</span></div>
+                    <div className="w-full bg-gray-200 h-1.5 rounded-full mt-0.5"><div className="bg-amber-500 h-full rounded-full" style={{ width: `${(t.children/60)*100}%` }} /></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* C. 「好久不見」黃金關懷警訊名單 */}
+        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xs font-black text-rose-600 tracking-wider flex items-center animate-pulse">
+                🚨 「好久不見」關懷警訊
+              </h3>
+              <span className="text-[9px] bg-rose-50 text-rose-600 px-2 py-0.5 rounded-full font-black">連續缺席 3 週+</span>
+            </div>
+            
+            <div className="space-y-3">
+              {warningList.map((w, idx) => (
+                <div key={idx} className="p-3 bg-rose-50/30 rounded-xl border border-rose-100/60 flex justify-between items-start">
+                  <div className="space-y-0.5">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs font-black text-slate-900">{w.name}</span>
+                      <span className="text-[9px] bg-slate-900 text-white px-1.5 py-0.2 rounded font-medium">{w.group}</span>
+                    </div>
+                    <div className="text-[10px] text-gray-500 font-bold">最後出席: {w.lastAttended}</div>
+                  </div>
+                  <div className="text-right flex flex-col items-end justify-between min-h-[36px]">
+                    <span className="text-[10px] text-rose-700 font-black bg-rose-100/70 px-1.5 py-0.5 rounded-full">
+                      缺席 {w.missedWeeks} 週
+                    </span>
+                    <span className={`text-[9px] font-black mt-1 ${w.status === '已約探訪' ? 'text-emerald-600' : 'text-amber-600'}`}>
+                      ● {w.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <button 
+            onClick={() => alert('已匯出目前連續未出席的關懷報表，並分派通知至各牧區長與小組長 LINE 帳群！')}
+            className="w-full mt-4 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-2 rounded-lg transition-colors flex items-center justify-center"
+          >
+            📋 一鍵派發本週關懷名單
+          </button>
         </div>
 
       </div>
