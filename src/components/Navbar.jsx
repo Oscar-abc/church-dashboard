@@ -1,114 +1,142 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-function Navbar({ currentTab, setCurrentTab }) {
-  // 記錄目前哪一個牧區的下拉選單正被打開 (null 代表都沒有開)
+export default function Navbar({ currentTab, setCurrentTab }) {
+  // 記錄目前哪一個牧區的下拉選單是被點開的 ('adult', 'youth', 'children', 或 null)
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const navbarRef = useRef(null);
 
-  // 定義分頁與下拉選單的內容
-  const tabs = [
-    { id: 'home', name: '首頁', hasDropdown: false },
-    { id: 'adult', name: '成人牧區', hasDropdown: true },
-    { id: 'youth', name: '青年牧區', hasDropdown: true },
-    { id: 'children', name: '兒童牧區', hasDropdown: true }
-  ];
-
-  const dropdownItems = [
-    { id: 'info', name: '📋 聚會資訊' },
-    { id: 'members', name: '👥 會友名單' },
-    { id: 'service', name: '📅 服事表' }
-  ];
-
-  // 處理點擊選項的動作
-  const handleItemClick = (tabId, itemId) => {
-    // 這裡切換主畫面的 Tab ID，例如 'adult-members'
-    setCurrentTab(`${tabId}-${itemId}`);
-    setActiveDropdown(null); // 點擊後關閉下拉選單
+  // 處理導覽列主分頁點擊（首頁）
+  const handleTabClick = (tabName) => {
+    setCurrentTab(tabName);
+    setActiveDropdown(null); // 切換主頁時關閉所有下拉選單
   };
 
+  // 處理牧區按鈕點擊：如果點擊已打開的就關閉，沒打開的就打開
+  const toggleDropdown = (dropdownName) => {
+    if (activeDropdown === dropdownName) {
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(dropdownName);
+    }
+  };
+
+  // 處理子選單點擊
+  const handleSubTabClick = (subTabName) => {
+    setCurrentTab(subTabName);
+    setActiveDropdown(null); // 點選功能後自動把選單收起來
+  };
+
+  // 【貼心功能】當使用者點擊網頁其他空白處時，自動把下拉選單收起來
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // 判斷該牧區按鈕目前是否處於被選取狀態
+  const isCategoryActive = (prefix) => currentTab.startsWith(prefix);
+
   return (
-    <nav className="bg-[#F4D03F] text-[#0B1E2D] px-6 py-3 flex justify-between items-center shadow-md border-b border-amber-400 relative z-50">
-      <div className="flex items-center space-x-8">
+    <header className="bg-[#F4D03F] shadow-md sticky top-0 z-50 px-6 py-3 select-none" ref={navbarRef}>
+      <div className="max-w-[1400px] mx-auto flex justify-between items-center">
         
-        {/* 左側 Logo 區 */}
-        <div className="flex items-center space-x-3 text-lg font-black tracking-wider">
-          <img 
-            src="/church-logo.png" 
-            alt="台中行道會 Logo" 
-            className="w-8 h-8 object-contain rounded-md"
-            onError={(e) => { e.target.style.display = 'none'; }}
-          />
-          <span>台中行道會教會系統</span>
-        </div>
-        
-        {/* 中央分頁與下拉選單區 */}
-        <div className="flex space-x-1">
-          {tabs.map((tab) => {
-            // 判斷目前這個 Tab 是否被選中 (包含子項目)
-            const isSelected = currentTab.startsWith(tab.id);
-
-            return (
-              <div 
-                key={tab.id} 
-                className="relative"
-                onMouseEnter={() => tab.hasDropdown && setActiveDropdown(tab.id)}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                {/* 主按鈕 */}
-                <button
-                  onClick={() => {
-                    if (!tab.hasDropdown) {
-                      setCurrentTab(tab.id);
-                    } else {
-                      // 有選單時，點擊預設切換到第一個子項目「聚會資訊」
-                      setCurrentTab(`${tab.id}-info`);
-                    }
-                  }}
-                  className={`px-4 py-2 rounded-md font-bold text-sm transition-all flex items-center space-x-1 ${
-                    isSelected
-                      ? 'bg-[#E6007E] text-white shadow-sm'
-                      : 'text-[#2C3E50] hover:bg-amber-500/40 hover:text-[#0B1E2D]'
-                  }`}
-                >
-                  <span>{tab.name}</span>
-                  {tab.hasDropdown && <span className="text-[10px] opacity-70">▼</span>}
-                </button>
-
-                {/* 下拉選單浮出區塊 */}
-                {tab.hasDropdown && activeDropdown === tab.id && (
-                  <div className="absolute left-0 mt-1 w-40 bg-white border border-gray-200 rounded-lg shadow-xl py-1 z-50 animate-fadeIn">
-                    {dropdownItems.map((item) => (
-                      <button
-                        key={item.id}
-                        onClick={() => handleItemClick(tab.id, item.id)}
-                        className={`w-full text-left px-4 py-2 text-xs font-bold transition-colors ${
-                          currentTab === `${tab.id}-${item.id}`
-                            ? 'bg-amber-50 text-[#E6007E]'
-                            : 'text-gray-700 hover:bg-gray-100 hover:text-black'
-                        }`}
-                      >
-                        {item.name}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 右側管理者資訊 */}
-      <div className="flex items-center space-x-4">
-        <span className="text-[#2C3E50] hover:text-black cursor-pointer text-sm">🔔</span>
-        <div className="flex items-center space-x-2 bg-[#0B1E2D] px-3 py-1.5 rounded-full border border-slate-700 shadow-sm">
-          <div className="w-6 h-6 bg-[#E6007E] rounded-full flex items-center justify-center text-xs font-bold text-white">
-            陳
+        {/* 左側 Logo 與標題 */}
+        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleTabClick('home')}>
+          <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden border border-amber-200">
+            <span className="font-black text-[#E6007E] text-base">⛪</span>
           </div>
-          <span className="text-xs font-bold text-yellow-400">管理者</span>
+          <h1 className="text-lg font-black text-slate-800 tracking-wider">
+            台中行道會教會系統
+          </h1>
         </div>
+
+        {/* 中央主選單（全面升級為點擊固定機制） */}
+        <nav className="flex items-center space-x-2 font-bold text-xs">
+          <button
+            onClick={() => handleTabClick('home')}
+            className={`px-4 py-2 rounded-lg transition-all ${
+              currentTab === 'home' ? 'bg-[#E6007E] text-white shadow-sm' : 'text-slate-700 hover:bg-amber-400/50'
+            }`}
+          >
+            首頁
+          </button>
+
+          {/* 1. 成人牧區 */}
+          <div className="relative">
+            <button
+              onClick={() => toggleDropdown('adult')}
+              className={`px-4 py-2 rounded-lg transition-all flex items-center space-x-1 ${
+                isCategoryActive('adult') ? 'bg-[#E6007E] text-white shadow-sm' : 'text-slate-700 hover:bg-amber-400/50'
+              }`}
+            >
+              <span>成人牧區 ▼</span>
+            </button>
+            {activeDropdown === 'adult' && (
+              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-fadeIn z-50">
+                <button onClick={() => handleSubTabClick('adult-info')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">📋</span> 聚會資訊</button>
+                <button onClick={() => handleSubTabClick('adult-members')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">👥</span> 會友名單</button>
+                <button onClick={() => handleSubTabClick('adult-schedule')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">📅</span> 服事表</button>
+              </div>
+            )}
+          </div>
+
+          {/* 2. 青年牧區 */}
+          <div className="relative">
+            <button
+              onClick={() => toggleDropdown('youth')}
+              className={`px-4 py-2 rounded-lg transition-all flex items-center space-x-1 ${
+                isCategoryActive('youth') ? 'bg-[#E6007E] text-white shadow-sm' : 'text-slate-700 hover:bg-amber-400/50'
+              }`}
+            >
+              <span>青年牧區 ▼</span>
+            </button>
+            {activeDropdown === 'youth' && (
+              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-fadeIn z-50">
+                <button onClick={() => handleSubTabClick('youth-info')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">⚡</span> 聚會資訊</button>
+                <button onClick={() => handleSubTabClick('youth-members')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">👥</span> 會友名單</button>
+                <button onClick={() => handleSubTabClick('youth-schedule')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">📅</span> 服事表</button>
+              </div>
+            )}
+          </div>
+
+          {/* 3. 兒童牧區 */}
+          <div className="relative">
+            <button
+              onClick={() => toggleDropdown('children')}
+              className={`px-4 py-2 rounded-lg transition-all flex items-center space-x-1 ${
+                isCategoryActive('children') ? 'bg-[#E6007E] text-white shadow-sm' : 'text-slate-700 hover:bg-amber-400/50'
+              }`}
+            >
+              <span>兒童牧區 ▼</span>
+            </button>
+            {activeDropdown === 'children' && (
+              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-fadeIn z-50">
+                <button onClick={() => handleSubTabClick('children-info')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">🎈</span> 聚會資訊</button>
+                <button onClick={() => handleSubTabClick('children-members')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">👥</span> 會友名單</button>
+                <button onClick={() => handleSubTabClick('children-schedule')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">📅</span> 服事表</button>
+              </div>
+            )}
+          </div>
+        </nav>
+
+        {/* 右側通知與管理者圖標 */}
+        <div className="flex items-center space-x-4">
+          <button className="text-slate-700 hover:text-[#E6007E] transition-colors relative">
+            🔔
+          </button>
+          <div className="flex items-center space-x-2 bg-slate-900 text-white px-3 py-1.5 rounded-full shadow-sm border border-slate-800">
+            <div className="w-5 h-5 bg-[#E6007E] text-white rounded-full flex items-center justify-center text-[10px] font-black">
+              陳
+            </div>
+            <span className="text-[10px] font-bold tracking-wider text-amber-300">管理者</span>
+          </div>
+        </div>
+
       </div>
-    </nav>
+    </header>
   );
 }
-
-export default Navbar;
