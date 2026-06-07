@@ -37,10 +37,14 @@ export default function Navbar({ currentTab, setCurrentTab }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // 【核心修正】判斷該牧區按鈕是否該亮粉紅色底色
-  // 條件：目前畫面顯示該牧區 (currentTab 吻合) OR 目前使用者正點開該牧區的下拉選單 (activeDropdown 吻合)
+  // 【專一邏輯修正】精準控制同時只能有一個牧區按鈕亮粉紅色底色
   const isCategoryActive = (prefix) => {
-    return currentTab.startsWith(prefix) || activeDropdown === prefix;
+    // 1. 如果目前有任何一個下拉選單被點開了，那就「只讓」那個被點開的牧區亮燈
+    if (activeDropdown !== null) {
+      return activeDropdown === prefix;
+    }
+    // 2. 如果目前沒有任何選單打開（activeDropdown 是 null），才根據目前畫面顯示的內容來亮燈
+    return currentTab.startsWith(prefix);
   };
 
   return (
@@ -49,7 +53,6 @@ export default function Navbar({ currentTab, setCurrentTab }) {
         
         {/* 左側 Logo 與標題 */}
         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleTabClick('home')}>
-          {/* 自動讀取 public/church-logo.png, 如果沒有就顯示備用教堂圖示 */}
           <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden border border-amber-200">
             <img 
               src="/church-logo.png" 
@@ -69,7 +72,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
           <button
             onClick={() => handleTabClick('home')}
             className={`px-4 py-2 rounded-lg transition-all ${
-              currentTab === 'home' ? 'bg-[#E6007E] text-white shadow-sm' : 'text-slate-700 hover:bg-amber-400/50'
+              currentTab === 'home' && activeDropdown === null ? 'bg-[#E6007E] text-white shadow-sm' : 'text-slate-700 hover:bg-amber-400/50'
             }`}
           >
             首頁
@@ -86,7 +89,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
               <span>成人牧區 ▼</span>
             </button>
             {activeDropdown === 'adult' && (
-              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-fadeIn z-50">
+              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                 <button onClick={() => handleSubTabClick('adult-info')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">📋</span> 聚會資訊</button>
                 <button onClick={() => handleSubTabClick('adult-members')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">👥</span> 會友名單</button>
                 <button onClick={() => handleSubTabClick('adult-schedule')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">📅</span> 服事表</button>
@@ -105,7 +108,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
               <span>青年牧區 ▼</span>
             </button>
             {activeDropdown === 'youth' && (
-              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-fadeIn z-50">
+              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                 <button onClick={() => handleSubTabClick('youth-info')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">⚡</span> 聚會資訊</button>
                 <button onClick={() => handleSubTabClick('youth-members')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">👥</span> 會友名單</button>
                 <button onClick={() => handleSubTabClick('youth-schedule')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">📅</span> 服事表</button>
@@ -124,7 +127,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
               <span>兒童牧區 ▼</span>
             </button>
             {activeDropdown === 'children' && (
-              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 animate-fadeIn z-50">
+              <div className="absolute left-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                 <button onClick={() => handleSubTabClick('children-info')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">🎈</span> 聚會資訊</button>
                 <button onClick={() => handleSubTabClick('children-members')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">👥</span> 會友名單</button>
                 <button onClick={() => handleSubTabClick('children-schedule')} className="w-full text-left px-4 py-2.5 text-gray-700 hover:bg-amber-50 hover:text-slate-900 transition-colors flex items-center"><span className="mr-2">📅</span> 服事表</button>
