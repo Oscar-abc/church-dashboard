@@ -152,13 +152,13 @@ function App() {
     }
   };
 
-  // 快捷刪除提示（針對搜尋框左側按鈕點擊）
+  // 快捷刪除提示
   const handleToolbarDeleteHelp = () => {
     alert("💡 提示：若要刪除/除籍特定的會友資料，請直接點擊下方名單表格中最右側的『🗑 刪除』按鈕即可安全同步雲端！");
   };
 
   // ==========================================
-  // 4. 萬用會友表格渲染模組 (按鈕與搜尋框合併並排)
+  // 4. 萬用會友表格渲染模組 (完美還原 image_bf1cee.png 比例)
   // ==========================================
   const renderMemberTable = (categoryName, targetCategory) => {
     const filteredMembers = mockMembers.filter(member => 
@@ -168,26 +168,26 @@ function App() {
 
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-200/80 overflow-hidden">
-        {/* 精美控制列：按鈕靠在搜尋框左邊排開 */}
+        {/* 頂部控制列：左右完美對齊結構 */}
         <div className="p-5 border-b border-gray-100 flex flex-wrap justify-between items-center bg-gray-50/50 gap-4">
           <h3 className="text-base font-bold text-slate-800 flex items-center">
             👥 {categoryName} 會友名單管理
             <span className="ml-2 text-xs bg-[#E6007E]/10 text-[#E6007E] px-2 py-0.5 rounded-full font-bold">共 {filteredMembers.length} 人</span>
           </h3>
           
-          {/* 工具列組合包：按鈕在搜尋框左邊 */}
+          {/* 完美的工具列：完全對齊搜尋框左側 */}
           <div className="flex items-center space-x-2">
             <button 
               type="button" 
               onClick={() => handleAddMemberClick(categoryName)}
-              className="bg-[#E6007E] hover:bg-[#c4006b] text-white font-black text-xs px-3 py-2 rounded-lg shadow-sm transition-all flex items-center"
+              className="bg-[#E6007E] hover:bg-[#c4006b] text-white font-black text-xs px-3.5 py-2 rounded-lg shadow-sm transition-all flex items-center h-[34px]"
             >
               ＋ 新增
             </button>
             <button 
               type="button" 
               onClick={handleToolbarDeleteHelp}
-              className="bg-slate-700 hover:bg-slate-800 text-white font-black text-xs px-3 py-2 rounded-lg shadow-sm transition-all flex items-center"
+              className="bg-slate-700 hover:bg-slate-800 text-white font-black text-xs px-3.5 py-2 rounded-lg shadow-sm transition-all flex items-center h-[34px]"
             >
               － 刪除
             </button>
@@ -197,9 +197,9 @@ function App() {
                 placeholder="搜尋姓名或小組..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="text-xs bg-white border border-gray-300 rounded-lg pl-8 pr-3 py-2 text-gray-700 w-48 focus:outline-none focus:ring-2 focus:ring-[#E6007E] font-medium" 
+                className="text-xs bg-white border border-gray-300 rounded-lg pl-8 pr-3 py-2 text-gray-700 w-48 focus:outline-none focus:ring-2 focus:ring-[#E6007E] font-medium h-[34px]" 
               />
-              <span className="absolute left-2.5 top-2.5 text-gray-400 text-xs pointer-events-none">🔍</span>
+              <span className="absolute left-2.5 top-[10px] text-gray-400 text-xs pointer-events-none">🔍</span>
             </div>
           </div>
         </div>
@@ -222,7 +222,7 @@ function App() {
             <tbody className="divide-y divide-gray-100 bg-white">
               {filteredMembers.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="p-8 text-center text-gray-400 font-medium">暫無此牧區會友數據，請點擊右上角新增。</td>
+                  <td colSpan="8" className="p-8 text-center text-gray-400 font-medium">暫無此牧區會友數據，請點擊上方『＋ 新增』按鈕。</td>
                 </tr>
               ) : (
                 filteredMembers.map(m => (
@@ -277,7 +277,7 @@ function App() {
         {currentTab === 'children-members' && renderMemberTable('兒童牧區', 'children')}
       </main>
 
-      {/* 新增會友彈窗 */}
+      {/* 新增會友彈窗 - 精準客製化稱謂項目 */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
