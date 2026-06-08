@@ -153,7 +153,7 @@ function App() {
   };
 
   // ==========================================
-  // 4. 萬用會友表格渲染模組 (原汁原味亮粉色系格式)
+  // 4. 萬用會友表格渲染模組 (補齊桃紅按鈕與右側刪除操作欄)
   // ==========================================
   const renderMemberTable = (categoryName, targetCategory) => {
     const filteredMembers = mockMembers.filter(member => 
@@ -163,6 +163,7 @@ function App() {
 
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-200/80 overflow-hidden">
+        {/* 頂部控制列：包含桃紅色新增按鈕 */}
         <div className="p-5 border-b border-gray-100 flex flex-wrap justify-between items-center bg-gray-50/50 gap-4">
           <h3 className="text-base font-bold text-slate-800 flex items-center">
             👥 {categoryName} 會友名單管理
@@ -177,6 +178,7 @@ function App() {
           </button>
         </div>
 
+        {/* 搜尋列 */}
         <div className="p-4 border-b border-gray-100 bg-white">
           <div className="relative">
             <input 
@@ -190,6 +192,7 @@ function App() {
           </div>
         </div>
 
+        {/* 資料表格 */}
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
@@ -222,9 +225,9 @@ function App() {
                     <td className="p-4 text-center">
                       <button 
                         onClick={() => handleDeleteMember(m.id, m.name)}
-                        className="text-rose-600 hover:text-rose-900 font-bold px-2 py-1"
+                        className="text-rose-600 hover:text-rose-950 font-black px-2 py-1 transition-colors"
                       >
-                        🗑 除籍/刪除
+                        🗑 刪除
                       </button>
                     </td>
                   </tr>
@@ -262,7 +265,7 @@ function App() {
         {currentTab === 'children-members' && renderMemberTable('兒童牧區', 'children')}
       </main>
 
-      {/* 新增會友的動態浮空彈窗 (Modal) - 精準定制稱謂與職分 */}
+      {/* 新增會友彈窗 - 精準自訂稱謂與職分項目 */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
