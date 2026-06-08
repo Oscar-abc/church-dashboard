@@ -3,17 +3,10 @@ import React from 'react';
 function Dashboard({ 
   initialEvents = [], 
   loading, 
-  handleAddEvent, 
-  handleDeleteEvent,
-  newTitle,
-  setNewTitle,
-  newDate,
-  setNewDate,
-  newTime,
-  setNewTime
+  handleDeleteEvent
 }) {
   
-  // 安全熔斷鎖：確保行程在加載空檔不崩潰
+  // 安全熔斷鎖
   const safeEvents = initialEvents || [];
 
   // 1. 本週主日服事輪值表數據
@@ -27,101 +20,103 @@ function Dashboard({
 
   // 2. 近期重要事工倒數數據
   const incomingEvents = [
-    { name: '親密之旅培育小組開課', date: '2026/06/20', daysLeft: 12, registered: 17, max: 20, percent: 85 },
-    { name: '夏季全教會浸禮門徒班', date: '2026/07/12', daysLeft: 34, registered: 8, max: 20, percent: 40 }
+    { name: '親密之旅關係培訓班', date: '2026/06/20', daysLeft: 13, registered: 28, max: 40, percent: 70 },
+    { name: '門徒造就 啟航班', date: '2026/07/05', daysLeft: 28, registered: 12, max: 30, percent: 40 }
   ];
 
-  // 3. 緊急代禱事項
+  // 3. 今日緊急代禱事項
   const prayers = [
-    { id: 1, group: '大衛小組', content: '建國弟兄因車禍住院，目前骨折開刀順利，求主保佑後續康復與傷口復原不發炎。' },
-    { id: 2, group: '喜樂小組', content: '美惠姊妹家中長輩今天下午突發高血壓送醫檢查，求神賜下平安與醫治的恩典。' }
+    { id: 1, tag: '緊急代禱', time: '2小時前', group: '大衛小組', content: '為成人牧區建國弟兄下週的手術順利與身體復原禱告，求神保守。' },
+    { id: 2, tag: '事工代禱', time: '今天上午', group: '喜樂小組', content: '為暑期兒童聖經營的同工招募與教案籌備守望，目前仍缺2位輔導。' }
   ];
 
-  // 4. 三大牧區出席波動趨勢
+  // 4. 三大牧區出席波動趨勢 (過去4週)
   const attendanceTrends = [
-    { week: 'W1 (上上上週)', adult: 135, youth: 45, children: 36 },
-    { week: 'W2 (上上週)', adult: 138, youth: 50, children: 34 },
-    { week: 'W3 (上週)', adult: 140, youth: 52, children: 35 },
-    { week: 'W4 (本週主日)', adult: 142, youth: 58, children: 35 }
+    { week: 'W1 (上上上週)', adult: 210, youth: 85, children: 45 },
+    { week: 'W2 (上上週)', adult: 225, youth: 92, children: 42 },
+    { week: 'W3 (上週)', adult: 198, youth: 78, children: 48 },
+    { week: 'W4 (本週主日)', adult: 220, youth: 95, children: 50 }
   ];
 
   // 5. 「好久不見」關懷警訊名單
   const alertMembers = [
-    { name: '張建國', group: '大衛小組', missedWeeks: 3, lastAttended: '2026-05-17', status: '未聯繫' },
-    { name: '林美惠', group: '喜樂小組', missedWeeks: 4, lastAttended: '2026-05-10', status: '已約探訪' }
+    { name: '王小芬', group: '喜樂小組', missedWeeks: 3, lastAttended: '2026/05/17', status: '未聯繫' },
+    { name: '李大同', group: '約書亞小組', missedWeeks: 4, lastAttended: '2026/05/10', status: '已約探訪' }
   ];
 
   const handleLineReminder = () => {
-    alert('🚀 一鍵派發成功！已自動擷取本週服事人員與關懷警示名單，透過 API 發送 LINE 提醒至各牧區長與小組長群組！');
-  };
-
-  const handleCopyBirthdayText = (name) => {
-    const text = `親愛的${name}，祝你生日快樂！願主在新的一年裡大大擴張你的境界，賜福你的家庭與事奉！`;
-    navigator.clipboard.writeText(text);
-    alert(`📋 已自動複製【${name}】的生日祝福簡訊！`);
+    alert('🚀 一鍵發送成功！已自動擷取本週服事同工與關懷名單，透過 LINE API 發送提醒通知！');
   };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300 text-slate-600 font-sans">
       
+      {/* ❯❯ 這裡已成功將原先頂部的深藍色各區域達成明細表格 (紅框處) 徹底移除 ❮❮ */}
+
       {/* ==================== 區塊 1：📅 本週焦點即時動態 ==================== */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* A. 本週主日服事輪值表 */}
-        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-200/80 flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-sm font-black text-slate-800 flex items-center">📋 本週主日服事輪值表</h3>
-              <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">本週主日</span>
+              <span className="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">本週主日 09:30</span>
             </div>
-            <div className="space-y-3 text-xs">
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-50"><span className="text-gray-400">講員牧師</span><span className="font-bold text-slate-800">{sundayService.speaker}</span></div>
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-50"><span className="text-gray-400">敬拜主領</span><span className="font-bold text-[#E6007E]">{sundayService.leader}</span></div>
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-50"><span className="text-gray-400">司琴同工</span><span className="font-medium text-slate-700">{sundayService.pianist}</span></div>
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-50"><span className="text-gray-400">音控/投影</span><span className="font-medium text-slate-700">{sundayService.audio}</span></div>
-              <div className="flex justify-between items-center py-1.5 border-b border-gray-50"><span className="text-gray-400">招待同工</span><span className="font-medium text-slate-700">{sundayService.usher}</span></div>
+            <div className="space-y-2.5 text-xs">
+              <div className="flex justify-between items-center p-2.5 bg-gray-50 rounded-lg border border-gray-100"><span className="text-gray-400 font-bold">本週講員</span><div className="flex items-center space-x-2"><span className="font-bold text-slate-800">{sundayService.speaker}</span><span className="text-[9px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded font-black">已確認</span></div></div>
+              <div className="flex justify-between items-center p-2.5 bg-gray-50 rounded-lg border border-gray-100"><span className="text-gray-400 font-bold">主日主領</span><div className="flex items-center space-x-2"><span className="font-bold text-[#E6007E]">{sundayService.leader}</span><span className="text-[9px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded font-black">Ref已確認</span></div></div>
+              <div className="flex justify-between items-center p-2.5 bg-gray-50 rounded-lg border border-gray-100"><span className="text-gray-400 font-bold">敬拜司琴</span><div className="flex items-center space-x-2"><span className="font-medium text-slate-700">{sundayService.pianist}</span><span className="text-[9px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded font-black">已確認</span></div></div>
+              <div className="flex justify-between items-center p-2.5 bg-gray-50 rounded-lg border border-gray-100"><span className="text-gray-400 font-bold">音控/投影</span><div className="flex items-center space-x-2"><span className="font-medium text-slate-700">{sundayService.audio}</span><span className="text-[9px] bg-rose-50 text-rose-600 px-1.5 py-0.5 rounded font-black animate-pulse">提醒未讀</span></div></div>
             </div>
           </div>
-          <button onClick={handleLineReminder} className="w-full mt-5 bg-[#E6007E] hover:bg-[#c4006b] text-white font-black py-2.5 rounded-xl text-xs transition-all shadow-sm flex items-center justify-center space-x-1">
-            <span>💬 一鍵發送 LINE 服事提醒</span>
+          <button onClick={handleLineReminder} className="w-full mt-4 bg-[#E6007E] hover:bg-[#c4006b] text-white font-black py-2.5 rounded-xl text-xs transition-all shadow-sm flex items-center justify-center space-x-1">
+            <span>💬 一鍵 LINE 提醒通知同工</span>
           </button>
         </div>
 
-        {/* B. 近期重要事工倒數 */}
-        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+        {/* B. 近期核心事工進度 */}
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-200/80 flex flex-col justify-between">
           <div>
-            <h3 className="text-sm font-black text-slate-800 mb-4 flex items-center">⏳ 近期重要事工倒數</h3>
+            <h3 className="text-sm font-black text-slate-800 mb-4 flex items-center">🚀 核心培育事工倒數</h3>
             <div className="space-y-4">
               {incomingEvents.map((e, idx) => (
                 <div key={idx} className="space-y-1.5">
-                  <div className="flex justify-between text-xs mb-0.5">
-                    <span className="font-bold text-slate-700">{e.name}</span>
-                    <span className="text-rose-600 font-black animate-pulse">倒數 {e.daysLeft} 天</span>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-black text-slate-800">{e.name}</span>
+                    <span className="text-rose-600 font-black bg-rose-50 px-2 py-0.5 rounded">倒數 {e.daysLeft} 天</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] text-gray-400 font-bold">
+                    <span>開課日: 2026/06/20</span>
+                    <span className="text-slate-700">已報名 {e.registered}/{e.max} 人</span>
                   </div>
                   <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
-                    <div className="bg-gradient-to-r from-[#E6007E] to-rose-400 h-full rounded-full" style={{ width: `${e.percent}%` }}></div>
-                  </div>
-                  <div className="flex justify-between text-[10px] text-gray-400 font-medium">
-                    <span>報名進度: {e.registered}/{e.max} 人</span>
-                    <span>目標達成率 {e.percent}%</span>
+                    <div className="bg-gradient-to-r from-amber-400 to-[#E6007E] h-full rounded-full" style={{ width: `${e.percent}%` }}></div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="text-[10px] text-gray-400 text-center border-t pt-2 border-gray-50 mt-4">門徒培育系統運作正常</div>
+          <div className="text-[10px] text-gray-400 text-center border-t pt-2 border-gray-100 mt-4">門徒培育系統運作正常</div>
         </div>
 
-        {/* C. 今日緊急代禱事項牆 */}
-        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+        {/* C. 今日守望代禱牆 */}
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-200/80 flex flex-col justify-between">
           <div>
-            <h3 className="text-sm font-black text-slate-800 mb-1 flex items-center">🙏 今日緊急代禱事項牆</h3>
-            <p className="text-gray-400 text-[10px] mb-3">各小組長今日即時回報欄位</p>
-            <div className="space-y-2.5 max-h-[150px] overflow-y-auto pr-1">
+            <h3 className="text-sm font-black text-slate-800 mb-4 flex items-center">🙏 今日守望代禱牆</h3>
+            <div className="space-y-3 max-h-[160px] overflow-y-auto pr-1">
               {prayers.map(p => (
-                <div key={p.id} className={`p-2.5 rounded-xl border text-xs leading-relaxed ${p.id === 1 ? 'bg-amber-50/40 border-amber-100' : 'bg-purple-50/40 border-purple-100'}`}>
-                  <span className={`font-bold ${p.id === 1 ? 'text-amber-800' : 'text-purple-800'}`}>[{p.group}] </span>
-                  {p.content}
+                <div key={p.id} className="p-3 bg-amber-50/30 rounded-xl border border-amber-100/70 space-y-1">
+                  <div className="flex justify-between items-center">
+                    <span className={`text-[9px] px-1.5 py-0.5 rounded font-black ${p.tag === '緊急代禱' ? 'bg-rose-100 text-rose-700' : 'bg-slate-100 text-slate-700'}`}>
+                      {p.tag}
+                    </span>
+                    <span className="text-[10px] text-gray-400 font-medium">{p.time}</span>
+                  </div>
+                  <p className="text-xs font-bold text-slate-700 leading-relaxed">
+                    <span className={p.id === 1 ? 'text-amber-800' : 'text-purple-800'}>[{p.group}] </span>
+                    {p.content}
+                  </p>
                 </div>
               ))}
             </div>
@@ -134,49 +129,50 @@ function Dashboard({
       {/* ==================== 區塊 2：📈 聚會出席趨勢與健康警訊 ==================== */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* A. 三大牧區出席波動明細 */}
-        <div className="lg:col-span-1 bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-          <h3 className="text-sm font-black text-slate-800 mb-1 flex items-center">📊 三大牧區聚會出席波動 (過去4週)</h3>
-          <p className="text-gray-400 text-[10px] mb-4">即時呈現牧養生命健康穩定度</p>
-          <div className="space-y-4 text-xs">
-            <div>
-              <div className="flex justify-between font-bold mb-1"><span>🔥 成人牧區 (大衛/喜樂)</span><span className="text-slate-900">穩定（本週 142 人）</span></div>
-              <div className="flex space-x-1 text-[10px] text-center font-bold text-white">
-                <div className="bg-slate-300 rounded-sm py-0.5 flex-1">135人</div>
-                <div className="bg-slate-400 rounded-sm py-0.5 flex-1">138人</div>
-                <div className="bg-slate-500 rounded-sm py-0.5 flex-1">140人</div>
-                <div className="bg-slate-900 rounded-sm py-0.5 flex-1">142人</div>
-              </div>
+        {/* A. 三大牧區出席波動趨勢 */}
+        <div className="lg:col-span-2 bg-white p-5 rounded-2xl shadow-sm border border-gray-200/80">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-sm font-black text-slate-800 flex items-center">📊 牧區出席波動趨勢（過去 4 週）</h3>
+            <div className="flex space-x-3 text-[10px] font-bold">
+              <span className="flex items-center text-slate-800"><span className="w-2.5 h-2.5 bg-slate-900 rounded-full mr-1"></span> 成人</span>
+              <span className="flex items-center text-[#E6007E]"><span className="w-2.5 h-2.5 bg-[#E6007E] rounded-full mr-1"></span> 青年</span>
+              <span className="flex items-center text-amber-500"><span className="w-2.5 h-2.5 bg-amber-500 rounded-full mr-1"></span> 兒童</span>
             </div>
-            <div>
-              <div className="flex justify-between font-bold mb-1"><span>⚡ 青年牧區 (提摩太/約書亞)</span><span className="text-[#E6007E]">成長中（本週 58 人）</span></div>
-              <div className="flex space-x-1 text-[10px] text-center font-bold text-white">
-                <div className="bg-rose-200 rounded-sm py-0.5 flex-1">45人</div>
-                <div className="bg-rose-300 rounded-sm py-0.5 flex-1">50人</div>
-                <div className="bg-rose-400 rounded-sm py-0.5 flex-1">52人</div>
-                <div className="bg-[#E6007E] rounded-sm py-0.5 flex-1">58人</div>
+          </div>
+          
+          <div className="grid grid-cols-4 gap-4 pt-1">
+            {attendanceTrends.map((t, idx) => (
+              <div key={idx} className="bg-gray-50/80 p-3 rounded-xl border border-gray-100 flex flex-col justify-between space-y-2">
+                <span className="text-[10px] font-black text-gray-400 text-center block border-b border-gray-200 pb-1">{t.week}</span>
+                <div className="space-y-2 text-[10px] font-bold">
+                  <div>
+                    <div className="flex justify-between text-slate-700"><span>成人</span><span>{t.adult}人</span></div>
+                    <div className="w-full bg-gray-200 h-1.5 rounded-full mt-0.5"><div className="bg-slate-900 h-full rounded-full" style={{ width: `${(t.adult/250)*100}%` }} /></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-[#E6007E]"><span>青年</span><span>{t.youth}人</span></div>
+                    <div className="w-full bg-gray-200 h-1.5 rounded-full mt-0.5"><div className="bg-[#E6007E] h-full rounded-full" style={{ width: `${(t.youth/120)*100}%` }} /></div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-amber-600"><span>兒童</span><span>{t.children}人</span></div>
+                    <div className="w-full bg-gray-200 h-1.5 rounded-full mt-0.5"><div className="bg-amber-500 h-full rounded-full" style={{ width: `${(t.children/60)*100}%` }} /></div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="flex justify-between font-bold mb-1"><span>👶 兒童牧區 (喜樂精兵)</span><span className="text-emerald-600">持平（本週 35 人）</span></div>
-              <div className="flex space-x-1 text-[10px] text-center font-bold text-white">
-                <div className="bg-emerald-200 rounded-sm py-0.5 flex-1">36人</div>
-                <div className="bg-emerald-300 rounded-sm py-0.5 flex-1">34人</div>
-                <div className="bg-emerald-400 rounded-sm py-0.5 flex-1">35人</div>
-                <div className="bg-emerald-600 rounded-sm py-0.5 flex-1">35人</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* B. 好久不見關鍵警訊 */}
-        <div className="lg:col-span-2 bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+        <div className="lg:col-span-1 bg-white p-5 rounded-2xl shadow-sm border border-gray-200/80 flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-center mb-1">
-              <h3 className="text-sm font-black text-slate-800 flex items-center">🚨 「好久不見」牧養關懷警訊</h3>
-              <span className="text-[10px] bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-black">黃金關懷期</span>
+              <h3 className="text-sm font-black text-rose-600 tracking-wider flex items-center animate-pulse">
+                🚨 「好久不見」牧養關懷警訊
+              </h3>
+              <span className="text-[9px] bg-rose-50 text-rose-600 px-2 py-0.5 rounded-full font-black">連續缺席 3 週+</span>
             </div>
-            <p className="text-gray-400 text-[10px] mb-3">系統偵測：連續 3 週以上未出席聚會且未請假之具名會友摘要</p>
+            <p className="text-gray-400 text-[10px] mb-3">系統偵測：連續聚會且未請假之具名會友摘要</p>
             
             <div className="space-y-2.5">
               {alertMembers.map((w, idx) => (
@@ -185,124 +181,22 @@ function Dashboard({
                     <div className="flex items-center space-x-2">
                       <span className="font-black text-slate-900 text-sm">{w.name}</span>
                       <span className="text-[9px] bg-slate-900 text-white px-1.5 py-0.5 rounded font-black">{w.group}</span>
-                      <span className="text-[10px] text-gray-400 font-medium ml-2">最後出席: {w.lastAttended}</span>
                     </div>
+                    <div className="text-[10px] text-gray-400 font-bold mt-0.5">最後出席: 2026-05-17</div>
                   </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-[10px] text-rose-700 font-black bg-rose-100 px-2 py-0.5 rounded-full">連續缺席 {w.missedWeeks} 週</span>
-                    <span className={`text-[10px] font-black ${w.status === '已約探訪' ? 'text-emerald-600' : 'text-amber-600'}`}>● {w.status}</span>
+                  <div className="text-right flex flex-col items-end">
+                    <span className="text-[10px] text-rose-700 font-black bg-rose-100 px-1.5 py-0.5 rounded-full">缺席 {w.missedWeeks} 週</span>
+                    <span className={`text-[9px] font-black mt-1 ${w.status === '已約探訪' ? 'text-emerald-600' : 'text-amber-600'}`}>● {w.status}</span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <button onClick={handleLineReminder} className="w-full mt-4 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm">
+          <button onClick={() => alert('已成功匯出連續未出席關懷名單，並發送至各區 LINE 帳群！')} className="w-full mt-4 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-sm">
             📋 匯出健康警訊報表並分派至各牧區長 LINE
           </button>
         </div>
 
-      </div>
-
-      {/* ==================== 區塊 3：📝 快捷同工作業區 ==================== */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* 快速簽到與新朋友追蹤進度 */}
-        <div className="lg:col-span-2 bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-black text-slate-800">⚡ 快捷行政同工作業入口</h3>
-            <div className="flex space-x-2">
-              <button onClick={() => alert('進入主日點名簽到系統...')} className="bg-[#E6007E] text-white px-3 py-1.5 rounded-lg text-[11px] font-black hover:bg-[#c4006b] shadow-sm transition-colors">🎯 開啟主日快速點名</button>
-              <button onClick={() => alert('進入週間小組簽到系統...')} className="bg-slate-900 text-white px-3 py-1.5 rounded-lg text-[11px] font-black hover:bg-slate-800 shadow-sm transition-colors">🏫 週間小組簽到</button>
-            </div>
-          </div>
-          <div className="border-t border-gray-100 pt-3">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-xs font-bold text-slate-700">🌱 本月新朋友追蹤跟進進度表</span>
-              <span className="text-[10px] text-gray-400">本月累計: +6 位新朋友</span>
-            </div>
-            <div className="space-y-1.5 text-xs">
-              <div className="flex justify-between items-center p-2.5 bg-slate-50 rounded-lg">
-                <div className="font-bold text-slate-800">林香君 <span className="text-[10px] font-medium text-gray-400">(青年)</span></div>
-                <div className="text-gray-500">跟進同工: 冠宏門徒</div>
-                <div className="text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded">● 穩定參與小組</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 本日壽星名單區 */}
-        <div className="lg:col-span-1 bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
-          <div>
-            <h3 className="text-sm font-black text-slate-800 mb-1 flex items-center">🎂 本週壽星溫馨名單牆</h3>
-            <p className="text-gray-400 text-[10px] mb-3">別忘了給家人送上第一手的主內祝福</p>
-            <div className="space-y-2">
-              {todayBirthdays.map((b, idx) => (
-                <div key={idx} className="flex justify-between items-center p-2.5 bg-amber-50/20 rounded-xl border border-amber-100/50 text-xs">
-                  <div>
-                    <span className="font-bold text-slate-800 text-sm">{b.name}</span>
-                    <span className="ml-1.5 text-[9px] bg-amber-500 text-white font-bold px-1.5 py-0.5 rounded-full">{b.group}</span>
-                  </div>
-                  <button onClick={() => handleCopyBirthdayText(b.name)} className="text-amber-700 font-bold hover:underline text-[11px]">
-                    📋 複製祝福簡訊
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="text-[10px] text-gray-400 text-center border-t pt-2 border-gray-100 mt-2">小組聯絡率目前達成 100%</div>
-        </div>
-
-      </div>
-
-      {/* ==================== 底部：📅 全教會近月重要行事曆大底盤 ==================== */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-4 bg-slate-900 text-white flex flex-wrap justify-between items-center gap-3">
-          <h3 className="text-xs font-black tracking-wider flex items-center">📅 全教會近月重要行事曆大底盤</h3>
-          <form onSubmit={handleAddEvent} className="flex items-center space-x-2 text-slate-800">
-            <input required type="text" placeholder="行程名稱" value={newTitle} onChange={e => setNewTitle(e.target.value)} className="bg-white rounded px-2 py-1 text-xs w-36 focus:outline-none" />
-            <input required type="date" value={newDate} onChange={e => setNewDate(e.target.value)} className="bg-white rounded px-2 py-1 text-xs w-28 focus:outline-none" />
-            <input type="text" placeholder="時間(選填)" value={newTime} onChange={e => setNewTime(e.target.value)} className="bg-white rounded px-2 py-1 text-xs w-20 focus:outline-none" />
-            <button type="submit" className="bg-[#E6007E] text-white hover:bg-[#c4006b] px-3 py-1 rounded text-xs font-black transition-colors">＋新增行程</button>
-          </form>
-        </div>
-        
-        <div className="p-4">
-          {loading ? (
-            <div className="py-12 text-center text-xs text-gray-400 font-medium">⏳ 正在與 Google 雲端安全通道同步中...</div>
-          ) : safeEvents.length === 0 ? (
-            <div className="py-12 text-center text-xs text-gray-400 font-medium">暫無近期重要行程，請在右上方快速控制列新增。</div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs">
-                <thead>
-                  <tr className="border-b border-gray-100 text-gray-400 font-bold">
-                    <th className="pb-3 pl-2">活動日期</th>
-                    <th className="pb-3">時間</th>
-                    <th className="pb-3">行程內容</th>
-                    <th className="pb-3 text-center">操作</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 bg-white">
-                  {safeEvents.map((evt) => (
-                    <tr key={evt.id} className="hover:bg-amber-50/10 transition-colors">
-                      <td className="py-3.5 pl-2 font-bold text-slate-900">{evt.date}</td>
-                      <td className="py-3.5 text-gray-500 font-medium">{evt.time || '整天'}</td>
-                      <td className="py-3.5 font-bold text-slate-800">{evt.title}</td>
-                      <td className="py-3.5 text-center">
-                        <button 
-                          onClick={() => handleDeleteEvent(evt.id)} 
-                          className="text-rose-600 hover:text-rose-900 font-bold px-2 py-1"
-                        >
-                          🗑 刪除
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
       </div>
 
     </div>
