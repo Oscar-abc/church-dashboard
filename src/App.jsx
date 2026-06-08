@@ -36,7 +36,7 @@ function App() {
   });
 
   // ==========================================
-  // 1. 實時監聽雲端【行事曆】與【會友】資料庫
+  // 1. 實時監聽雲端資料庫 (防空值漏接保護)
   // ==========================================
   useEffect(() => {
     setLoading(true);
@@ -75,7 +75,7 @@ function App() {
   }, []);
 
   // ==========================================
-  // 2. 行事曆運作邏輯 (新增/刪除)
+  // 2. 行事曆運作邏輯
   // ==========================================
   const handleAddEvent = async (e) => {
     e.preventDefault();
@@ -90,6 +90,7 @@ function App() {
       setNewTitle('');
       setNewDate('');
       setNewTime('');
+      alert("🎉 行程已成功同步至 Firebase 雲端資料庫！");
     } catch (err) {
       console.error("新增行程失敗:", err);
     }
@@ -99,6 +100,7 @@ function App() {
     if (window.confirm("確定要刪除這筆行程嗎？")) {
       try {
         await deleteDoc(doc(db, "church_events", id));
+        alert("🗑 行程已從雲端安全刪除！");
       } catch (err) {
         console.error("刪除行程失敗:", err);
       }
@@ -106,7 +108,7 @@ function App() {
   };
 
   // ==========================================
-  // 3. 會友資料庫運作邏輯 (開啟彈窗/新增/刪除)
+  // 3. 會友名單邏輯
   // ==========================================
   const handleAddMemberClick = (pastoralName) => {
     let code = 'adult';
@@ -129,16 +131,12 @@ function App() {
 
   const handleSaveMember = async (e) => {
     e.preventDefault();
-    if (!newMember.name.trim()) {
-      alert("請輸入會友姓名");
-      return;
-    }
+    if (!newMember.name.trim()) return;
     try {
       await addDoc(collection(db, "church_members"), newMember);
       setShowAddModal(false);
     } catch (err) {
       console.error("雲端新增會友失敗:", err);
-      alert("同步雲端失敗，請檢查網路！");
     }
   };
 
@@ -152,13 +150,8 @@ function App() {
     }
   };
 
-  // 快捷刪除提示
-  const handleToolbarDeleteHelp = () => {
-    alert("💡 提示：若要刪除/除籍特定的會友資料，請直接點擊下方名單表格中最右側的『🗑 刪除』按鈕即可安全同步雲端！");
-  };
-
   // ==========================================
-  // 4. 萬用會友表格渲染模組 (完美還原 image_bf1cee.png 比例)
+  // 4. 萬用會友表格渲染模組 (完美比例還原)
   // ==========================================
   const renderMemberTable = (categoryName, targetCategory) => {
     const filteredMembers = mockMembers.filter(member => 
@@ -168,14 +161,12 @@ function App() {
 
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-200/80 overflow-hidden">
-        {/* 頂部控制列：左右完美對齊結構 */}
         <div className="p-5 border-b border-gray-100 flex flex-wrap justify-between items-center bg-gray-50/50 gap-4">
           <h3 className="text-base font-bold text-slate-800 flex items-center">
             👥 {categoryName} 會友名單管理
             <span className="ml-2 text-xs bg-[#E6007E]/10 text-[#E6007E] px-2 py-0.5 rounded-full font-bold">共 {filteredMembers.length} 人</span>
           </h3>
           
-          {/* 完美的工具列：完全對齊搜尋框左側 */}
           <div className="flex items-center space-x-2">
             <button 
               type="button" 
@@ -186,7 +177,7 @@ function App() {
             </button>
             <button 
               type="button" 
-              onClick={handleToolbarDeleteHelp}
+              onClick={() => alert("💡 請點擊下方名單表格中最右側的『🗑 刪除』按鈕進行除籍！")}
               className="bg-slate-700 hover:bg-slate-800 text-white font-black text-xs px-3.5 py-2 rounded-lg shadow-sm transition-all flex items-center h-[34px]"
             >
               － 刪除
@@ -204,7 +195,6 @@ function App() {
           </div>
         </div>
 
-        {/* 資料表格 */}
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
@@ -222,7 +212,7 @@ function App() {
             <tbody className="divide-y divide-gray-100 bg-white">
               {filteredMembers.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="p-8 text-center text-gray-400 font-medium">暫無此牧區會友數據，請點擊上方『＋ 新增』按鈕。</td>
+                  <td colSpan="8" className="p-8 text-center text-gray-400 font-medium">暫無此牧區會友數據。</td>
                 </tr>
               ) : (
                 filteredMembers.map(m => (
@@ -254,8 +244,10 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans antialiased text-slate-600">
+      {/* 導覽列 */}
       <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
+      {/* 主內容區：完美接軌 Dashboard 的所有通道參數 */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
         {currentTab === 'home' && (
           <Dashboard 
@@ -277,7 +269,7 @@ function App() {
         {currentTab === 'children-members' && renderMemberTable('兒童牧區', 'children')}
       </main>
 
-      {/* 新增會友彈窗 - 精準客製化稱謂項目 */}
+      {/* 新增會友彈窗 */}
       {showAddModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 max-w-md w-full overflow-hidden animate-in fade-in zoom-in-95 duration-150">
@@ -335,7 +327,7 @@ function App() {
                 </div>
                 <div>
                   <label className="block text-gray-500 font-bold mb-1">生命培育進度</label>
-                  <input type="text" value={newMember.course} onChange={e => setNewMember({...newMember, course: e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-700 font-medium focus:ring-2 focus:ring-[#E6007E] focus:outline-none" placeholder="例如：親密之旅、啟航" />
+                  <input type="text" value={newMember.course} onChange={e => setNewMember({...newMember, course: e.target.value})} className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-700 font-medium focus:ring-2 focus:ring-[#E6007E] focus:outline-none" placeholder="例如：親密之旅" />
                 </div>
               </div>
               <div className="pt-2 flex justify-end space-x-2">
