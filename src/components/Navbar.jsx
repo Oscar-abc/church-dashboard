@@ -1,3 +1,4 @@
+import churchLogo from '../assets/church-logo.png';
 import React, { useState, useEffect, useRef } from 'react';
 
 export default function Navbar({ currentTab, setCurrentTab }) {
@@ -43,21 +44,11 @@ export default function Navbar({ currentTab, setCurrentTab }) {
     <header className="bg-[#F4D03F] shadow-md sticky top-0 z-50 px-6 py-3 select-none" ref={navbarRef}>
       <div className="max-w-[1400px] mx-auto flex justify-between items-center">
         
-        {/* 左側 Logo 與標題 */}
-        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleTabClick('home')}>
-          <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden border border-amber-200">
-            <img 
-              src="/church-logo.png" 
-              alt="Logo" 
-              className="w-full h-full object-cover"
-              onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'block'; }}
-            />
-            <span className="font-black text-[#E6007E] text-base hidden">⛪</span>
-          </div>
-          <h1 className="text-lg font-black text-slate-800 tracking-wider">
-            台中行道會教會系統
-          </h1>
-        </div>
+{/* 左側 Logo 與 標題 */}
+      <div className="flex items-center space-x-3 cursor-pointer" onClick={() => handleTabClick('home')}>
+        <img src={churchLogo} alt="Logo" className="h-10 w-10 object-contain rounded-md" />
+        <h1 className="text-xl font-bold text-slate-800 tracking-wide">台中行道會教會系統</h1>
+      </div>
 
         {/* 中央主選單（包含新功能：行事曆） */}
         <nav className="flex items-center space-x-2 font-bold text-xs">
