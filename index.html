@@ -15,31 +15,49 @@
     <h1 class="text-xl font-bold text-slate-800 tracking-wide">台中行道會教會系統</h1>
   </div>
 
-        <nav class="hidden md:flex items-center space-x-1 font-medium">
-            <a href="#" class="bg-[#e62e8a] text-white px-5 py-2 rounded-full text-sm font-semibold transition shadow-md">首頁</a>
-            <div class="relative group">
-                <button class="px-4 py-2 text-slate-700 hover:text-slate-900 text-sm flex items-center">
-                    成人牧區 <span class="text-xs ml-1">▼</span>
-                </button>
-            </div>
-            <div class="relative group">
-                <button class="px-4 py-2 text-slate-700 hover:text-slate-900 text-sm flex items-center">
-                    青年牧區 <span class="text-xs ml-1">▼</span>
-                </button>
-            </div>
-            <div class="relative group">
-                <button class="px-4 py-2 text-slate-700 hover:text-slate-900 text-sm flex items-center">
-                    兒童牧區 <span class="text-xs ml-1">▼</span>
-                </button>
-            </div>
-            <a href="#" class="px-4 py-2 text-slate-700 hover:text-slate-900 text-sm flex items-center">📅 行事曆</a>
-        </nav>
+<nav class="hidden md:flex items-center space-x-1 font-medium">
+      <a href="#" class="nav-tab bg-[#e62e8a] text-white px-5 py-2 rounded-full text-sm transition-colors">首頁</a>
 
-        <div class="flex items-center space-x-4">
-            <button class="text-slate-700 hover:text-slate-900 relative p-1">
-                <span class="text-xl">🔔</span>
-                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+      <div class="relative">
+        <button class="nav-tab px-4 py-2 text-slate-700 hover:text-slate-900 text-sm flex items-center rounded-full transition-colors">
+          成人牧區 <span class="text-xs ml-1">▼</span>
+        </button>
+        <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
+          <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
+<a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="成人牧區">會友名單</a>
+          <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md">服事表</a>
+        </div>
+      </div>
+
+      <div class="relative">
+        <button class="nav-tab px-4 py-2 text-slate-700 hover:text-slate-900 text-sm flex items-center rounded-full transition-colors">
+          青年牧區 <span class="text-xs ml-1">▼</span>
+        </button>
+        <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
+          <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
+<a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="青年牧區">會友名單</a>
+          <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md">服事表</a>
+        </div>
+      </div>
+
+      <div class="relative">
+        <button class="nav-tab px-4 py-2 text-slate-700 hover:text-slate-900 text-sm flex items-center rounded-full transition-colors">
+          兒童牧區 <span class="text-xs ml-1">▼</span>
+        </button>
+        <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
+          <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
+<a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="兒童牧區">會友名單</a>
+          <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md">服事表</a>
+        </div>
+      </div>
+
+<a href="#" id="btn-calendar" class="nav-tab px-4 py-2 text-slate-700 hover:text-slate-900 text-sm flex items-center rounded-full transition-colors">📅 行事曆</a>
+    </nav>
+
+<button class="text-slate-700 hover:text-slate-900 relative p-1">
+    <span class="text-xl">🔔</span>
+    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
             <div class="flex items-center bg-[#1e293b] text-white px-3 py-1.5 rounded-full text-sm space-x-2">
                 <div class="w-6 h-6 bg-pink-400 rounded-full flex items-center justify-center text-xs font-bold text-white">陳</div>
                 <span class="font-medium text-xs">管理者</span>
@@ -47,7 +65,7 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-6 space-y-6">
+<main id="view-home" class="max-w-7xl mx-auto p-6 space-y-6">
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
@@ -332,6 +350,216 @@
         </div>
 
     </main>
+
+<main id="view-member-list" class="max-w-7xl mx-auto p-6 hidden">
+  <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+    
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div class="flex items-center space-x-2">
+        <span class="text-xl">👥</span>
+        <h2 id="member-list-title" class="text-lg font-bold text-slate-800">會友名單管理</h2>
+        <span class="bg-pink-100 text-pink-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">共 0 人</span>
+      </div>
+      
+      <div class="flex items-center space-x-3">
+        <button class="bg-[#e62e8a] text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-[#c92477] transition-colors">＋ 新增</button>
+        <button class="bg-[#334155] text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-slate-800 transition-colors">－ 刪除</button>
+        <div class="relative">
+          <input type="text" placeholder="搜尋姓名或小組..." class="border border-slate-200 rounded-md px-3 py-1.5 pl-8 text-sm focus:outline-none focus:border-slate-400 w-48 md:w-64" />
+          <span class="absolute left-2.5 top-2.5 text-slate-400 text-sm">🔍</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto rounded-lg border border-slate-100">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-[#0f172a] text-white text-sm font-semibold tracking-wide">
+            <th class="p-3.5 pl-6">姓名</th>
+            <th class="p-3.5">稱謂</th>
+            <th class="p-3.5">聯絡電話</th>
+            <th class="p-3.5">所屬小組</th>
+            <th class="p-3.5">教會職分</th>
+            <th class="p-3.5">受洗狀態</th>
+            <th class="p-3.5">生命培育進度</th>
+            <th class="p-3.5 pr-6">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="8" class="text-center text-slate-400 py-16 text-sm bg-slate-50/50">
+              暫無此牧區會友數據。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</main>
+
+<main id="view-calendar" class="max-w-7xl mx-auto p-6 hidden space-y-6">
+  <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+    <div class="flex items-center space-x-3">
+      <span class="text-2xl">📅</span>
+      <div>
+        <h2 class="text-lg font-bold text-slate-800">台中行道會大小事行事曆系統</h2>
+        <p class="text-sm text-slate-500 mt-1">在此安排全教會、各牧區的重要活動事工，統一管控作戰進度。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 space-y-4 h-fit">
+      <h3 class="font-bold text-slate-800 flex items-center"><span class="mr-1.5">✍️</span>安排新行程/大小事</h3>
+      
+      <div class="space-y-3">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">行程事工名稱 <span class="text-red-500">*</span></label>
+          <input type="text" placeholder="例如：洗禮主日、同工大會..." class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">預定日期 <span class="text-red-500">*</span></label>
+            <input type="date" class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">預定時間</label>
+            <input type="time" class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">主辦牧區/歸屬</label>
+            <select class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-slate-400 bg-white">
+              <option>全教會</option>
+              <option>成人牧區</option>
+              <option>青年牧區</option>
+              <option>兒童牧區</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">參與/對象目標</label>
+            <input type="text" placeholder="例如：核心同工、小組長" class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">事工/活動備註內容描述</label>
+          <textarea rows="4" placeholder="請輸入聚會細節、攜帶物品 or 任務清單說明..." class="w-full border border-slate-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-slate-400 resize-none"></textarea>
+        </div>
+
+        <button class="w-full bg-[#e62e8a] text-white py-2.5 rounded-md font-bold text-sm hover:bg-[#c92477] transition-colors mt-2">
+          ＋ 確定排入行事曆
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 lg:col-span-2">
+      <h3 class="font-bold text-slate-800 mb-4 flex items-center">
+        <span class="mr-1.5">📆</span>教會近期排定活動清單 <span class="ml-2 bg-slate-100 text-slate-600 text-xs font-semibold px-2 py-0.5 rounded-full">共 0 項行程</span>
+      </h3>
+      
+      <div class="border border-dashed border-slate-200 rounded-lg p-12 text-center bg-slate-50/50">
+        <p class="text-sm text-slate-400 flex items-center justify-center py-8">
+          <span class="mr-1.5">📋</span>目前雲端尚無行程，請在左側填寫排入！
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+    // 核心安全切換面板函式
+    function switchView(viewId) {
+      const home = document.getElementById('view-home');
+      const member = document.getElementById('view-member-list');
+      const calendar = document.getElementById('view-calendar');
+      
+      // 只有在元素真的存在時才切換，防止找不到人而報錯
+      if (home) home.classList.add('hidden');
+      if (member) member.classList.add('hidden');
+      if (calendar) calendar.classList.add('hidden');
+      
+      const target = document.getElementById(viewId);
+      if (target) {
+        target.classList.remove('hidden');
+        console.log(`成功切換到視圖: ${viewId}`);
+      } else {
+        console.error(`切換失敗：找不到 id 為 "${viewId}" 的主要畫面區塊！`);
+      }
+    }
+
+    // 1. 主選單頁籤的點擊與粉紅樣式切換
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', function(e) {
+        e.stopPropagation();
+
+        const currentMenu = this.nextElementSibling;
+        const isMenuOpen = currentMenu && !currentMenu.classList.contains('hidden');
+
+        // 還原所有人樣式，收起所有選單
+        document.querySelectorAll('.nav-tab').forEach(t => {
+          t.classList.remove('bg-[#e62e8a]', 'text-white');
+          t.classList.add('text-slate-700', 'hover:text-slate-900');
+        });
+        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+
+        // 點亮當前按鈕
+        this.classList.remove('text-slate-700', 'hover:text-slate-900');
+        this.classList.add('bg-[#e62e8a]', 'text-white');
+
+        if (currentMenu && currentMenu.classList.contains('dropdown-menu') && !isMenuOpen) {
+          currentMenu.classList.remove('hidden');
+        }
+      });
+    });
+
+    // 2. 點擊「首頁」
+    const btnHome = document.getElementById('btn-home');
+    if (btnHome) {
+      btnHome.addEventListener('click', function(e) {
+        e.preventDefault();
+        switchView('view-home');
+      });
+    }
+
+    // 3. 點擊各牧區下的「會友名單」
+    document.querySelectorAll('.sub-member-list').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        switchView('view-member-list');
+
+        // 動態修改表格標題
+        const districtName = this.getAttribute('data-district');
+        const titleEl = document.getElementById('member-list-title');
+        if (titleEl) {
+          titleEl.innerText = `${districtName} 會友名單管理`;
+        }
+
+        const menu = this.closest('.dropdown-menu');
+        if (menu) menu.classList.add('hidden');
+      });
+    });
+
+    // 4. 點擊「行事曆」
+    const btnCalendar = document.getElementById('btn-calendar');
+    if (btnCalendar) {
+      btnCalendar.addEventListener('click', function(e) {
+        e.preventDefault();
+        switchView('view-calendar');
+      });
+    }
+
+    // 5. 點擊空白處收起選單
+    window.addEventListener('click', function() {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+    });
+  </script>
 
 </body>
 </html>
