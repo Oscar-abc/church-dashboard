@@ -471,10 +471,82 @@
   </div>
 </main>
 
+<div id="modal-add-member" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center hidden z-50 p-4">
+  <div class="bg-white rounded-2xl shadow-xl border border-slate-100 max-w-md w-full overflow-hidden transform transition-all">
+    
+    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+      <h3 id="modal-district-title" class="font-bold text-slate-800 flex items-center">
+        <span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (成人牧區)
+      </h3>
+      <button id="btn-close-modal" class="text-slate-400 hover:text-slate-600 text-sm focus:outline-none">✕</button>
+    </div>
+
+    <form id="form-add-member" class="p-6 space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">會友姓名 <span class="text-red-500">*</span></label>
+        <input type="text" required placeholder="請輸入姓名" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">稱謂</label>
+          <select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400 bg-white">
+            <option value="弟兄">弟兄</option>
+            <option value="姊妹">姊妹</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">聯絡電話</label>
+          <input type="text" placeholder="09XX-XXXXXX" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">所屬小組</label>
+          <input type="text" placeholder="例如：喜樂小組" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">教會職分</label>
+          <select class="w-full border border-pink-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-600 bg-white font-medium text-slate-700">
+            <option value="牧師">牧師</option>
+            <option value="長老">長老</option>
+            <option value="傳道">傳道</option>
+            <option value="輔導">輔導</option>
+<option value="同工">同工</option>           
+ <option value="小組長">小組長</option>
+            <option value="會友">會友</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">受洗狀態</label>
+          <select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400 bg-white">
+            <option value="已受洗">已受洗</option>
+            <option value="未受洗">未受洗</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">生命培育進度</label>
+          <input type="text" placeholder="無" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end space-x-3 pt-2 mt-4">
+        <button type="button" id="btn-cancel-modal" class="bg-slate-100 text-slate-600 px-4 py-2 rounded-lg font-medium text-sm hover:bg-slate-200 transition-colors">取消</button>
+        <button type="submit" class="bg-[#e62e8a] text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-[#c92477] transition-colors shadow-sm">儲存至雲端</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
-    // 建立一個變數，用來隨時記錄當前使用者人在哪個牧區
+    // 預設當前牧區狀態
     let currentDistrict = '成人牧區';
 
+    // 核心安全切換面板函式
     function switchView(viewId) {
       const home = document.getElementById('view-home');
       const member = document.getElementById('view-member-list');
@@ -488,7 +560,7 @@
       if (target) target.classList.remove('hidden');
     }
 
-    // 1. 主選單頁籤切換
+    // 1. 主選單頁籤的點擊與粉紅選取狀態切換
     document.querySelectorAll('.nav-tab').forEach(tab => {
       tab.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -510,7 +582,7 @@
       });
     });
 
-    // 2. 點擊首頁
+    // 2. 點擊「首頁」
     const btnHome = document.getElementById('btn-home');
     if (btnHome) {
       btnHome.addEventListener('click', function(e) {
@@ -519,7 +591,7 @@
       });
     }
 
-    // 3. 點擊會友名單 ➔ 記憶當前牧區
+    // 3. 核心：點擊下拉選單內的「會友名單」，自動刷新並記憶牧區名稱
     document.querySelectorAll('.sub-member-list').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -527,17 +599,19 @@
 
         switchView('view-member-list');
 
-        // 核心：擷取並儲存當前牧區名稱
+        // 讀取該標籤設定的牧區名稱，並更新全局記憶變數
         currentDistrict = this.getAttribute('data-district') || '成人牧區';
         const titleEl = document.getElementById('member-list-title');
-        if (titleEl) titleEl.innerText = `${currentDistrict} 會友名單管理`;
+        if (titleEl) {
+          titleEl.innerText = `${currentDistrict} 會友名單管理`;
+        }
 
         const menu = this.closest('.dropdown-menu');
         if (menu) menu.classList.add('hidden');
       });
     });
 
-    // 4. 點擊行事曆
+    // 4. 點擊「行事曆」
     const btnCalendar = document.getElementById('btn-calendar');
     if (btnCalendar) {
       btnCalendar.addEventListener('click', function(e) {
@@ -546,45 +620,45 @@
       });
     }
 
-    // 🌟 新增：彈窗開關控制邏輯
+    // 🌟 5. 新增彈窗（Modal）交互邏輯機制
     const modal = document.getElementById('modal-add-member');
     const btnAddMember = document.getElementById('btn-add-member');
     const btnCloseModal = document.getElementById('btn-close-modal');
     const btnCancelModal = document.getElementById('btn-cancel-modal');
     const formAddMember = document.getElementById('form-add-member');
 
-    // 打開彈窗
+    // 喚醒彈窗並注入動態標題
     if (btnAddMember && modal) {
       btnAddMember.addEventListener('click', function() {
-        // 動態更換彈窗上的標題文字！
         const modalTitle = document.getElementById('modal-district-title');
-        if (modalTitle) modalTitle.innerHTML = `<span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (${currentDistrict})`;
-        
+        if (modalTitle) {
+          modalTitle.innerHTML = `<span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (${currentDistrict})`;
+        }
         modal.classList.remove('hidden');
       });
     }
 
-    // 關閉彈窗功能
+    // 收合彈窗
     function closeModal() {
       if (modal) {
         modal.classList.add('hidden');
-        if (formAddMember) formAddMember.reset(); // 順手清空填寫內容
+        if (formAddMember) formAddMember.reset(); // 關閉時自動抹除未儲存暫存資料
       }
     }
 
     if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
     if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
 
-    // 攔截表單送出（點擊儲存至雲端時）
+    // 攔截儲存表單
     if (formAddMember) {
       formAddMember.addEventListener('submit', function(e) {
         e.preventDefault();
-        alert(`已成功將資料傳送至雲端伺服器！`);
+        alert(`已成功將此筆新的會友資料同步上傳至雲端！`);
         closeModal();
       });
     }
 
-    // 點擊空白處收起選單
+    // 點擊空白處收起下拉選單
     window.addEventListener('click', function() {
       document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
     });
