@@ -6,6 +6,10 @@
     <title>台中行道會教會系統 - 首頁</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
 </head>
 <body class="bg-[#f8fafc] text-slate-800 font-sans min-h-screen">
 
@@ -385,7 +389,7 @@
             <th class="p-3.5 pr-6">操作</th>
           </tr>
         </thead>
-        <tbody>
+<tbody id="member-table-body">
           <tr>
             <td colspan="8" class="text-center text-slate-400 py-16 text-sm bg-slate-50/50">
               暫無此牧區會友數據。
@@ -471,7 +475,8 @@
   </div>
 </main>
 
-<div id="modal-add-member" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center hidden z-50 p-4">
+
+<div id="modal-add-member" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
   <div class="bg-white rounded-2xl shadow-xl border border-slate-100 max-w-md w-full overflow-hidden transform transition-all">
     
     <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
@@ -484,37 +489,42 @@
     <form id="form-add-member" class="p-6 space-y-4">
       <div>
         <label class="block text-sm font-medium text-slate-700 mb-1">會友姓名 <span class="text-red-500">*</span></label>
-        <input type="text" required placeholder="請輸入姓名" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+        <input type="text" id="m-name" required placeholder="請輸入姓名" 
+               class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500" />
       </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">稱謂</label>
-          <select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400 bg-white">
+          <select id="m-title" 
+                  class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500">
             <option value="弟兄">弟兄</option>
             <option value="姊妹">姊妹</option>
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">聯絡電話</label>
-          <input type="text" placeholder="09XX-XXXXXX" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          <input type="text" id="m-phone" placeholder="09XX-XXXXXX" 
+                 class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500" />
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">所屬小組</label>
-          <input type="text" placeholder="例如：喜樂小組" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          <input type="text" id="m-group" placeholder="例如：喜樂小組" 
+                 class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500" />
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">教會職分</label>
-          <select class="w-full border border-pink-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-600 bg-white font-medium text-slate-700">
+          <select id="m-role" 
+                  class="w-full border border-pink-500 rounded-lg px-3 py-2 text-sm bg-white font-medium text-slate-700 shadow-sm focus:outline-none focus:border-pink-600">
             <option value="牧師">牧師</option>
             <option value="長老">長老</option>
             <option value="傳道">傳道</option>
             <option value="輔導">輔導</option>
-<option value="同工">同工</option>           
- <option value="小組長">小組長</option>
+            <option value="同工">同工</option>
+            <option value="小組長">小組長</option>
             <option value="會友">會友</option>
           </select>
         </div>
@@ -523,14 +533,16 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">受洗狀態</label>
-          <select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400 bg-white">
+          <select id="m-baptism" 
+                  class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500">
             <option value="已受洗">已受洗</option>
             <option value="未受洗">未受洗</option>
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">生命培育進度</label>
-          <input type="text" placeholder="無" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          <input type="text" id="m-progress" placeholder="無" 
+                 class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500" />
         </div>
       </div>
 
@@ -543,10 +555,27 @@
 </div>
 
 <script>
-    // 預設當前牧區狀態
+// ----------------------------------------------------
+    // 🔥 Firebase 初始化設定（已成功替換為 tccic-webV2 真實金鑰！）
+    // ----------------------------------------------------
+    const firebaseConfig = {
+      apiKey: "AIzaSyD3z63t_Dk1siO0two7-foW5nnfNC8KOXI",
+      authDomain: "tccic-system-v2.firebaseapp.com",
+      projectId: "tccic-system-v2",
+      storageBucket: "tccic-system-v2.firebasestorage.app",
+      messagingSenderId: "109304896735",
+      appId: "1:109304896735:web:c611383e3036ac48829d6a"
+    };
+    
+    // 啟動 Firebase 並連結 Firestore 資料庫
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ----------------------------------------------------
+    // ⚙️ 核心變數與視圖切換邏輯
+    // ----------------------------------------------------
     let currentDistrict = '成人牧區';
 
-    // 核心安全切換面板函式
     function switchView(viewId) {
       const home = document.getElementById('view-home');
       const member = document.getElementById('view-member-list');
@@ -560,7 +589,7 @@
       if (target) target.classList.remove('hidden');
     }
 
-    // 1. 主選單頁籤的點擊與粉紅選取狀態切換
+    // 主選單頁籤選取樣式切換
     document.querySelectorAll('.nav-tab').forEach(tab => {
       tab.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -582,7 +611,7 @@
       });
     });
 
-    // 2. 點擊「首頁」
+    // 點擊「首頁」
     const btnHome = document.getElementById('btn-home');
     if (btnHome) {
       btnHome.addEventListener('click', function(e) {
@@ -591,7 +620,7 @@
       });
     }
 
-    // 3. 核心：點擊下拉選單內的「會友名單」，自動刷新並記憶牧區名稱
+    // 點擊各牧區下的「會友名單」 ➔ 記憶牧區並從雲端抓取資料
     document.querySelectorAll('.sub-member-list').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -599,19 +628,19 @@
 
         switchView('view-member-list');
 
-        // 讀取該標籤設定的牧區名稱，並更新全局記憶變數
         currentDistrict = this.getAttribute('data-district') || '成人牧區';
         const titleEl = document.getElementById('member-list-title');
-        if (titleEl) {
-          titleEl.innerText = `${currentDistrict} 會友名單管理`;
-        }
+        if (titleEl) titleEl.innerText = `${currentDistrict} 會友名單管理`;
+
+        // 核心：從資料庫撈出該牧區的專屬名單！
+        loadMembersFromFirebase(currentDistrict);
 
         const menu = this.closest('.dropdown-menu');
         if (menu) menu.classList.add('hidden');
       });
     });
 
-    // 4. 點擊「行事曆」
+    // 點擊「行事曆」
     const btnCalendar = document.getElementById('btn-calendar');
     if (btnCalendar) {
       btnCalendar.addEventListener('click', function(e) {
@@ -620,43 +649,135 @@
       });
     }
 
-    // 🌟 5. 新增彈窗（Modal）交互邏輯機制
+    // ----------------------------------------------------
+    // 📥 Firebase 雲端資料讀取與渲染機制
+    // ----------------------------------------------------
+    function loadMembersFromFirebase(district) {
+      const tbody = document.getElementById('member-table-body');
+      if (!tbody) return;
+
+      // 顯示載入中骨架狀態
+      tbody.innerHTML = `<tr><td colspan="8" class="text-center text-slate-400 py-16 text-sm bg-slate-50/50">☁️ 雲端資料安全載入中...</td></tr>`;
+
+      db.collection('members')
+        .where('district', '==', district)
+        .get()
+        .then((querySnapshot) => {
+          tbody.innerHTML = '';
+          let count = 0;
+
+          if (querySnapshot.empty) {
+            tbody.innerHTML = `<tr><td colspan="8" class="text-center text-slate-400 py-16 text-sm bg-slate-50/50">暫無此牧區會友數據。</td></tr>`;
+            updateCountBadge(0);
+            return;
+          }
+
+          querySnapshot.forEach((doc) => {
+            count++;
+            const member = doc.data();
+            const tr = document.createElement('tr');
+            tr.className = "border-b border-slate-100 hover:bg-slate-50/50 text-slate-700 text-sm transition-colors";
+            tr.innerHTML = `
+              <td class="p-3.5 pl-6 font-semibold text-slate-900">${member.name || ''}</td>
+              <td class="p-3.5">${member.title || ''}</td>
+              <td class="p-3.5">${member.phone || ''}</td>
+              <td class="p-3.5">${member.group || ''}</td>
+              <td class="p-3.5">
+                <span class="px-2 py-0.5 rounded-md text-xs font-semibold bg-pink-50 text-pink-600 border border-pink-100">${member.role || ''}</span>
+              </td>
+              <td class="p-3.5">${member.baptism || ''}</td>
+              <td class="p-3.5">${member.progress || '無'}</td>
+              <td class="p-3.5 pr-6">
+                <button onclick="deleteMemberFromFirebase('${doc.id}', '${member.name}')" class="text-red-500 hover:text-red-700 font-medium text-xs transition-colors">刪除</button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+
+          updateCountBadge(count);
+        })
+        .catch((error) => {
+          console.error("讀取失敗:", error);
+          tbody.innerHTML = `<tr><td colspan="8" class="text-center text-red-500 py-16 text-sm bg-slate-50/50">❌ 雲端資料載入失敗，請檢查金鑰或網路設定。</td></tr>`;
+        });
+    }
+
+    function updateCountBadge(count) {
+      const badge = document.querySelector('#view-member-list .bg-pink-100');
+      if (badge) badge.innerText = `共 ${count} 人`;
+    }
+
+    // ----------------------------------------------------
+    // 📤 Firebase 雲端資料新增與刪除機制
+    // ----------------------------------------------------
     const modal = document.getElementById('modal-add-member');
     const btnAddMember = document.getElementById('btn-add-member');
     const btnCloseModal = document.getElementById('btn-close-modal');
     const btnCancelModal = document.getElementById('btn-cancel-modal');
     const formAddMember = document.getElementById('form-add-member');
 
-    // 喚醒彈窗並注入動態標題
     if (btnAddMember && modal) {
       btnAddMember.addEventListener('click', function() {
         const modalTitle = document.getElementById('modal-district-title');
-        if (modalTitle) {
-          modalTitle.innerHTML = `<span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (${currentDistrict})`;
-        }
+        if (modalTitle) modalTitle.innerHTML = `<span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (${currentDistrict})`;
         modal.classList.remove('hidden');
       });
     }
 
-    // 收合彈窗
     function closeModal() {
       if (modal) {
         modal.classList.add('hidden');
-        if (formAddMember) formAddMember.reset(); // 關閉時自動抹除未儲存暫存資料
+        if (formAddMember) formAddMember.reset();
       }
     }
 
     if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
     if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
 
-    // 攔截儲存表單
+    // 【新增】攔截表單提交，發送至 Firebase
     if (formAddMember) {
       formAddMember.addEventListener('submit', function(e) {
         e.preventDefault();
-        alert(`已成功將此筆新的會友資料同步上傳至雲端！`);
-        closeModal();
+
+        const newMemberData = {
+          name: document.getElementById('m-name').value,
+          title: document.getElementById('m-title').value,
+          phone: document.getElementById('m-phone').value,
+          group: document.getElementById('m-group').value,
+          role: document.getElementById('m-role').value,
+          baptism: document.getElementById('m-baptism').value,
+          progress: document.getElementById('m-progress').value || '無',
+          district: currentDistrict, // 自動封裝目前的所屬牧區！
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        db.collection('members').add(newMemberData)
+          .then(() => {
+            alert(`已成功將「${newMemberData.name}」的會友資料永久同步上傳至雲端！`);
+            closeModal();
+            loadMembersFromFirebase(currentDistrict); // 即時刷新列表
+          })
+          .catch((err) => {
+            console.error("寫入失敗:", err);
+            alert("上傳失敗，請確認 Firebase 資料庫權限設定！");
+          });
       });
     }
+
+    // 【刪除】點擊刪除按鈕時的雲端連動機制
+    window.deleteMemberFromFirebase = function(docId, name) {
+      if (confirm(`⚠️ 確定要刪除會友「${name}」嗎？此操作將永久從雲端移除資料且無法復原。`)) {
+        db.collection('members').doc(docId).delete()
+          .then(() => {
+            alert(`已成功將「${name}」從系統內安全移除。`);
+            loadMembersFromFirebase(currentDistrict); // 即時刷新列表
+          })
+          .catch((err) => {
+            console.error("刪除失敗:", err);
+            alert("刪除失敗，請再試一次。");
+          });
+      }
+    };
 
     // 點擊空白處收起下拉選單
     window.addEventListener('click', function() {
@@ -664,12 +785,12 @@
     });
   </script>
 
-<div id="modal-add-member" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center hidden z-50 p-4">
+<div id="modal-add-member" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
   <div class="bg-white rounded-2xl shadow-xl border border-slate-100 max-w-md w-full overflow-hidden transform transition-all">
     
     <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
       <h3 id="modal-district-title" class="font-bold text-slate-800 flex items-center">
-        <span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (青年牧區)
+        <span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (成人牧區)
       </h3>
       <button id="btn-close-modal" class="text-slate-400 hover:text-slate-600 text-sm focus:outline-none">✕</button>
     </div>
@@ -677,36 +798,36 @@
     <form id="form-add-member" class="p-6 space-y-4">
       <div>
         <label class="block text-sm font-medium text-slate-700 mb-1">會友姓名 <span class="text-red-500">*</span></label>
-        <input type="text" required placeholder="請輸入姓名" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+        <input type="text" id="m-name" required placeholder="請輸入姓名" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500 bg-white" />
       </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">稱謂</label>
-          <select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400 bg-white">
+          <select id="m-title" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500 bg-white">
             <option value="弟兄">弟兄</option>
             <option value="姊妹">姊妹</option>
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">聯絡電話</label>
-          <input type="text" placeholder="09XX-XXXXXX" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          <input type="text" id="m-phone" placeholder="09XX-XXXXXX" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500 bg-white" />
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">所屬小組</label>
-          <input type="text" placeholder="例如：喜樂小組" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          <input type="text" id="m-group" placeholder="例如：喜樂小組" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500 bg-white" />
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">教會職分</label>
-          <select class="w-full border border-pink-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-600 bg-white">
-            <option value="同工">同工</option>
+          <select id="m-role" class="w-full border border-pink-500 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-600 bg-white font-medium text-slate-700">
             <option value="牧師">牧師</option>
             <option value="長老">長老</option>
             <option value="傳道">傳道</option>
             <option value="輔導">輔導</option>
+            <option value="同工">同工</option>
             <option value="小組長">小組長</option>
             <option value="會友">會友</option>
           </select>
@@ -716,14 +837,14 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">受洗狀態</label>
-          <select class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400 bg-white">
+          <select id="m-baptism" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500 bg-white">
             <option value="已受洗">已受洗</option>
             <option value="未受洗">未受洗</option>
           </select>
         </div>
         <div>
           <label class="block text-sm font-medium text-slate-700 mb-1">生命培育進度</label>
-          <input type="text" placeholder="無" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-slate-400" />
+          <input type="text" id="m-progress" placeholder="無" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500 bg-white" />
         </div>
       </div>
 
