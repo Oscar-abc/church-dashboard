@@ -355,6 +355,7 @@
 
     </main>
 
+
 <main id="view-member-list" class="max-w-7xl mx-auto p-6 hidden">
   <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
     
@@ -362,21 +363,22 @@
       <div class="flex items-center space-x-2">
         <span class="text-xl">👥</span>
         <h2 id="member-list-title" class="text-lg font-bold text-slate-800">會友名單管理</h2>
-        <span class="bg-pink-100 text-pink-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">共 0 人</span>
+        <span class="bg-pink-100 text-pink-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">共1人</span>
       </div>
       
       <div class="flex items-center space-x-3">
-<button id="btn-add-member" class="bg-[#e62e8a] text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-[#c92477] transition-colors">＋ 新增</button>
-        <button class="bg-[#334155] text-white px-4 py-2 rounded-md font-medium text-sm hover:bg-slate-800 transition-colors">－ 刪除</button>
+        <button id="btn-add-member" class="bg-[#e62e8a] text-white px-4 py-2 rounded-xl font-medium text-sm hover:bg-[#c92477] transition-colors shadow-sm focus:outline-none">
+          + 新增
+        </button>
         <div class="relative">
-          <input type="text" placeholder="搜尋姓名或小組..." class="border border-slate-200 rounded-md px-3 py-1.5 pl-8 text-sm focus:outline-none focus:border-slate-400 w-48 md:w-64" />
-          <span class="absolute left-2.5 top-2.5 text-slate-400 text-sm">🔍</span>
+          <input type="text" id="search-input" placeholder="搜尋姓名或小組..." 
+                 class="border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500 w-64" />
+          <span class="absolute left-3 top-2.5 text-slate-400 text-sm">🔍</span>
         </div>
       </div>
-    </div>
-
-    <div class="overflow-x-auto rounded-lg border border-slate-100">
+    </div> <div class="overflow-x-auto rounded-lg border border-slate-100">
       <table class="w-full text-left border-collapse">
+
         <thead>
           <tr class="bg-[#0f172a] text-white text-sm font-semibold tracking-wide">
             <th class="p-3.5 pl-6">姓名</th>
@@ -581,6 +583,59 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
+// ----------------------------------------------------
+    // ✏️ 智慧修改控制中心：自動撈雲端資料並填表
+    // ----------------------------------------------------
+    let editingMemberId = null; // 專門用來紀錄目前正在修改哪一位會友的 ID
+
+    // 當點擊修改筆圖標時，這個 function 會被觸發
+    window.openEditModal = async (id) => {
+      try {
+        // 1. 去雲端安全撈出這杯會友的原始資料
+        const doc = await db.collection('members').doc(id).get();
+        if (!doc.exists) {
+          alert('找不到該會友資料！');
+          return;
+        }
+        const data = doc.data();
+
+        // 2. 將撈出來的舊資料，一秒自動塞滿彈窗的各個輸入框
+        document.getElementById('m-name').value = data.name || '';
+        document.getElementById('m-title').value = data.title || '弟兄';
+        document.getElementById('m-phone').value = data.phone || '';
+        document.getElementById('m-group').value = data.group || '';
+        document.getElementById('m-role').value = data.role || '會友';
+        document.getElementById('m-baptism').value = data.baptism || '已受洗';
+        document.getElementById('m-progress').value = data.progress || '無';
+
+        // 3. 細緻細節：把彈窗標題改成藍色「✏️修改會友資料」，按鈕改成「儲存修改」
+        document.getElementById('modal-district-title').innerHTML = `<span class="text-blue-600 mr-1.5">✏️</span>修改會友資料`;
+        const submitBtn = document.querySelector('#form-add-member button[type="submit"]');
+        if (submitBtn) submitBtn.textContent = '儲存修改';
+
+        // 4. 鎖定目前修改的 ID，並讓霧面彈窗優雅掀開 (移除 hidden 類別)
+        editingMemberId = id;
+        document.getElementById('modal-add-member').classList.remove('hidden');
+      } catch (error) {
+        console.error("撈取會友資料失敗:", error);
+        alert('讀取失敗，請檢查網路連線！');
+      }
+    };
+
+    // 貼心安全重置：當關閉或取消彈窗時，自動把彈窗洗乾淨並換回「新增模式」
+    function closeMemberModal() {
+      document.getElementById('modal-add-member').classList.add('hidden');
+      document.getElementById('form-add-member').reset();
+      editingMemberId = null; // 解鎖 ID
+      document.getElementById('modal-district-title').innerHTML = `<span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (成人牧區)`;
+      const submitBtn = document.querySelector('#form-add-member button[type="submit"]');
+      if (submitBtn) submitBtn.textContent = '儲存至雲端';
+    }
+
+    // 點擊 ✕ 或 取消時，執行重置關閉
+    if (document.getElementById('btn-close-modal')) document.getElementById('btn-close-modal').onclick = closeMemberModal;
+    if (document.getElementById('btn-cancel-modal')) document.getElementById('btn-cancel-modal').onclick = closeMemberModal;
+
     // ----------------------------------------------------
     // ⚙️ 核心變數與視圖切換邏輯
     // ----------------------------------------------------
@@ -697,9 +752,21 @@
               </td>
               <td class="p-3.5">${member.baptism || ''}</td>
               <td class="p-3.5">${member.progress || '無'}</td>
-              <td class="p-3.5 pr-6">
-                <button onclick="deleteMemberFromFirebase('${doc.id}', '${member.name}')" class="text-red-500 hover:text-red-700 font-medium text-xs transition-colors">刪除</button>
-              </td>
+<td class="p-3.5 pr-6 text-center flex items-center justify-center space-x-3">
+  <button type="button" onclick="openEditModal('${doc.id}')" 
+          class="text-slate-500 hover:text-blue-600 transition-colors focus:outline-none" title="修改資料">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+    </svg>
+  </button>
+
+  <button type="button" onclick="deleteMemberFromFirebase('${doc.id}', '${member.name}')" 
+          class="text-slate-400 hover:text-red-500 transition-colors focus:outline-none" title="刪除會友">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.34 6.14m-4.08 0L10 9m4.34-3.65m2.81 0A48.11 48.11 0 0 0 12 4.5c-2.38 0-4.707.05-6.957.148M14.74 5.67l-.34 6.14M18 19.75a2.25 2.25 0 0 1-2.25 2.25H8.25A2.25 2.25 0 0 1 6 19.75V7.25h12v12.5Z" />
+    </svg>
+  </button>
+</td>
             `;
             tbody.appendChild(tr);
           });
@@ -745,32 +812,51 @@
     if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
 
     // 【新增】攔截表單提交，發送至 Firebase
+// ----------------------------------------------------
+    // ✨ 智慧型表單提交：自動判斷是「新增」還是「修改」並寫入 Firebase
+    // ----------------------------------------------------
     if (formAddMember) {
-      formAddMember.addEventListener('submit', function(e) {
+      formAddMember.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        const newMemberData = {
+        
+        // 抓取網頁輸入框當前填寫的最新內容
+        const memberData = {
           name: document.getElementById('m-name').value,
           title: document.getElementById('m-title').value,
           phone: document.getElementById('m-phone').value,
           group: document.getElementById('m-group').value,
           role: document.getElementById('m-role').value,
           baptism: document.getElementById('m-baptism').value,
-          progress: document.getElementById('m-progress').value || '無',
-          district: currentDistrict, // 自動封裝目前的所屬牧區！
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          progress: document.getElementById('m-progress').value,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp() // 紀錄最後異動時間
         };
 
-        db.collection('members').add(newMemberData)
-          .then(() => {
-            alert(`已成功將「${newMemberData.name}」的會友資料永久同步上傳至雲端！`);
-            closeModal();
-            loadMembersFromFirebase(currentDistrict); // 即時刷新列表
-          })
-          .catch((err) => {
-            console.error("寫入失敗:", err);
-            alert("上傳失敗，請確認 Firebase 資料庫權限設定！");
-          });
+        try {
+          if (editingMemberId) {
+            // 【分支 A：修改模式】直接覆蓋更新雲端這張指定 ID 的卡片
+            await db.collection('members').doc(editingMemberId).update(memberData);
+            alert('✏️ 太棒了！會友資料已成功更新並即時同步！');
+          } else {
+            // 【分支 B：新增模式】在雲端建立全新隨機文件
+            memberData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            await db.collection('members').add(memberData);
+            alert('✨ 成功！新會友已安全加入雲端資料庫！');
+          }
+          
+          // 成功後執行你截圖中的關閉彈窗功能
+          closeModal(); 
+          
+          // 貼心重置：將彈窗標題與按鈕文字恢復成初始狀態
+          editingMemberId = null;
+          const modalTitle = document.getElementById('modal-district-title');
+          if (modalTitle) modalTitle.innerHTML = `<span class="text-pink-600 mr-1.5">＋</span>新增會友資料 (${currentDistrict})`;
+          const submitBtn = document.querySelector('#form-add-member button[type="submit"]');
+          if (submitBtn) submitBtn.textContent = '儲存至雲端';
+          
+        } catch (error) {
+          console.error("雲端儲存失敗:", error);
+          alert('儲存失敗，請檢查網路或資料庫設定！');
+        }
       });
     }
 
