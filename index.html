@@ -29,7 +29,7 @@
         <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
           <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
 <a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="成人牧區">會友名單</a>
-          <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md">服事表</a>
+<button type="button" onclick="switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
         </div>
       </div>
 
@@ -355,6 +355,119 @@
 
     </main>
 
+<main id="view-service-schedule" class="max-w-7xl mx-auto p-6 hidden">
+  
+  <div class="flex justify-center mb-6">
+    <div class="bg-slate-100 p-1 rounded-xl flex space-x-1 shadow-inner">
+      <button id="btn-view-weekly" onclick="toggleScheduleView('weekly')" 
+              class="bg-white text-slate-800 px-5 py-2 rounded-lg text-sm font-semibold shadow-sm border border-slate-200/50 transition-all focus:outline-none">
+        📋 本週服事焦點
+      </button>
+      <button id="btn-view-quarterly" onclick="toggleScheduleView('quarterly')" 
+              class="text-slate-600 hover:text-slate-950 px-5 py-2 rounded-lg text-sm font-medium transition-all focus:outline-none">
+        🗓️ 季度總體總覽 (三個月)
+      </button>
+    </div>
+  </div>
+
+  <div id="weekly-schedule-card" class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 max-w-2xl mx-auto transition-all">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-50 pb-3">
+      <h3 class="text-lg font-bold text-slate-800">📋 本週主日服事輪值</h3>
+      <span class="text-xs bg-amber-100 text-amber-700 font-semibold px-2.5 py-0.5 rounded-full">成人牧區</span>
+    </div>
+    <div class="space-y-4">
+      <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-100"><span class="text-slate-500">主日主領</span><span class="font-semibold text-slate-800">陳冠宏 門徒</span></div>
+      <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-100"><span class="text-slate-500">敬拜司琴</span><span class="font-semibold text-slate-800">林美惠 姊妹</span></div>
+      <div class="flex justify-between items-center py-2 border-b border-dashed border-slate-100"><span class="text-slate-500">音控投影</span><span class="font-semibold text-slate-800">李明翰 兄弟</span></div>
+    </div>
+  </div>
+
+  <div id="quarterly-schedule-box" class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 hidden transition-all">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-50 pb-4">
+      <div>
+        <h3 class="text-lg font-bold text-slate-900">2026年度 第三季服事總體編排大表</h3>
+        <p class="text-xs text-slate-400 mt-1">※ 適用 7 月至 9 月共 13 週輪值，所有下拉選單未來將動態連動會友名單</p>
+      </div>
+      <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">🖨️ 列印班表</button>
+    </div>
+<!-- 矩陣大表格滾動容器 (翻轉版：Y軸日期、X軸職分) -->
+    <div class="overflow-x-auto rounded-xl border border-slate-100 shadow-sm">
+      <table class="w-full text-sm text-center border-collapse min-w-[1000px]">
+        <thead>
+          <!-- 頂部橫軸 X軸：服事職分，全文字置中對齊 -->
+          <tr class="bg-slate-900 text-white font-medium">
+            <th class="p-4 text-center sticky left-0 bg-slate-900 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-10 min-w-[120px]">日期</th>
+            <th class="p-4 text-center bg-slate-800">證道</th>
+            <th class="p-4 text-center bg-slate-800/90">主領</th>
+            <th class="p-4 text-center bg-slate-800">音投/音控</th>
+            <th class="p-4 text-center bg-slate-800/90">招待</th>
+            <th class="p-4 text-center bg-slate-800">早禱會</th>
+            <th class="p-4 text-center bg-slate-800/90">財務</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 bg-white text-slate-700">
+          
+          <!-- 07/05 主日列 -->
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/05</td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>張茂松 牧師</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none font-medium"><option>陳冠宏 門徒</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>李明翰 兄弟</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>林美惠 姊妹</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+          </tr>
+
+          <!-- 07/12 主日列 -->
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/12</td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>外請 牧師</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>林美惠 姊妹</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+          </tr>
+
+          <!-- 07/19 主日列 -->
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/19</td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>張茂松 牧師</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>李明翰 兄弟</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+          </tr>
+
+          <!-- 07/26 主日列 (人員重疊警告測試效果範例) -->
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/26</td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>張茂松 牧師</option></select></td>
+            <!-- 示範：冠宏同時站主領與音控，欄位自動高亮變紅 -->
+            <td class="p-2"><select class="w-full bg-pink-50 border border-pink-300 text-pink-700 rounded-lg p-1.5 text-xs text-center font-bold animate-pulse"><option>⚠️ 陳冠宏 (重疊)</option><option>林美惠 姊妹</option></select></td>
+            <td class="p-2"><select class="w-full bg-pink-50 border border-pink-300 text-pink-700 rounded-lg p-1.5 text-xs text-center font-bold animate-pulse"><option>⚠️ 陳冠宏 (重疊)</option><option>李明翰 兄弟</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+          </tr>
+
+          <!-- 08/02 主日列 -->
+          <tr class="hover:bg-slate-50/80 transition-colors">
+            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/02</td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:border-pink-500 focus:outline-none"><option>未指定 🔽</option></select></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
 
 <main id="view-member-list" class="max-w-7xl mx-auto p-6 hidden">
   <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
@@ -641,18 +754,43 @@
     // ----------------------------------------------------
     let currentDistrict = '成人牧區';
 
-    function switchView(viewId) {
-      const home = document.getElementById('view-home');
-      const member = document.getElementById('view-member-list');
-      const calendar = document.getElementById('view-calendar');
-      
-      if (home) home.classList.add('hidden');
-      if (member) member.classList.add('hidden');
-      if (calendar) calendar.classList.add('hidden');
-      
-      const target = document.getElementById(viewId);
-      if (target) target.classList.remove('hidden');
-    }
+function switchView(viewId) {
+  const home = document.getElementById('view-home');
+  const member = document.getElementById('view-member-list');
+  const calendar = document.getElementById('view-calendar');
+  // 🔌 新增：抓取獨立服事表分頁的大樓
+  const serviceSchedule = document.getElementById('view-service-schedule');
+
+  if (home) home.classList.add('hidden');
+  if (member) member.classList.add('hidden');
+  if (calendar) calendar.classList.add('hidden');
+  // 🔌 新增：切換頁面時，先把服事表也隱藏起來
+  if (serviceSchedule) serviceSchedule.classList.add('hidden');
+
+  const target = document.getElementById(viewId);
+  if (target) target.classList.remove('hidden');
+}
+
+// 🎯 緊接著貼在 switchView 的 } 正下方：
+// 🔄 專屬服事表內部的：本週卡片 ⇄ 季度總覽 切換開關
+window.toggleScheduleView = function(viewType) {
+  const weeklyCard = document.getElementById('weekly-schedule-card');
+  const quarterlyBox = document.getElementById('quarterly-schedule-box');
+  const btnWeekly = document.getElementById('btn-view-weekly');
+  const btnQuarterly = document.getElementById('btn-view-quarterly');
+
+  if (viewType === 'weekly') {
+    if (weeklyCard) weeklyCard.classList.remove('hidden');
+    if (quarterlyBox) quarterlyBox.classList.add('hidden');
+    btnWeekly.className = "bg-white text-slate-800 px-5 py-2 rounded-lg text-sm font-semibold shadow-sm border border-slate-200/50 transition-all focus:outline-none";
+    btnQuarterly.className = "text-slate-600 hover:text-slate-950 px-5 py-2 rounded-lg text-sm font-medium transition-all focus:outline-none";
+  } else {
+    if (weeklyCard) weeklyCard.classList.add('hidden');
+    if (quarterlyBox) quarterlyBox.classList.remove('hidden');
+    btnWeekly.className = "text-slate-600 hover:text-slate-950 px-5 py-2 rounded-lg text-sm font-medium transition-all focus:outline-none";
+    btnQuarterly.className = "bg-white text-slate-800 px-5 py-2 rounded-lg text-sm font-semibold shadow-sm border border-slate-200/50 transition-all focus:outline-none";
+  }
+};
 
     // 主選單頁籤選取樣式切換
     document.querySelectorAll('.nav-tab').forEach(tab => {
