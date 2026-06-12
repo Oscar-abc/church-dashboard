@@ -29,7 +29,7 @@
         <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
           <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
 <a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="成人牧區">會友名單</a>
-<button type="button" onclick="switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
+<button type="button" onclick="window.currentDistrict='成人牧區'; refreshServiceScheduleHeader('成人牧區'); loadDistrictMembersToDropdowns('成人牧區'); switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
         </div>
       </div>
 
@@ -40,7 +40,7 @@
         <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
           <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
 <a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="青年牧區">會友名單</a>
-<button type="button" onclick="window.currentDistrict='青年牧區'; refreshServiceScheduleHeader('青年牧區'); switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
+<button type="button" onclick="window.currentDistrict='青年牧區'; refreshServiceScheduleHeader('青年牧區'); loadDistrictMembersToDropdowns('青年牧區'); switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
         </div>
       </div>
 
@@ -51,7 +51,7 @@
         <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
           <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
 <a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="兒童牧區">會友名單</a>
-<button type="button" onclick="window.currentDistrict='兒童牧區'; refreshServiceScheduleHeader('兒童牧區'); switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
+<button type="button" onclick="window.currentDistrict='兒童牧區'; refreshServiceScheduleHeader('兒童牧區'); loadDistrictMembersToDropdowns('兒童牧區'); switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
         </div>
       </div>
 
