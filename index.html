@@ -9,8 +9,76 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <!-- ==================================================== -->
+  <!-- 🖨️ 報表專用：列印最佳化樣式（只印大表、精準塞滿單一頁面） -->
+  <!-- ==================================================== -->
+  <style>
+    @media print {
+      /* 1. 隱藏所有不需要印出來的網頁雜物 */
+      header, 
+      nav, 
+      .flex.items-center.justify-center.space-x-4, 
+      #btn-view-weekly,
+      #btn-view-quarterly,
+      button,
+      #weekly-schedule-card {
+        display: none !important;
+      }
+
+      /* 2. 重設頁面邊距，確保空間利用率最大化 */
+      @page {
+        size: landscape; /* 強制網頁預設為橫向列印 */
+        margin: 0.8cm;   /* 精準上下左右留白 */
+      }
+
+      /* 3. 強制將大表的外殼解除陰影與最大寬度限制，全面滿版 */
+      body {
+        background: white !important;
+        color: black !important;
+        font-size: 11px !important;
+      }
+
+      /* 🎯 抓取大表容器 */
+      div.overflow-x-auto {
+        overflow: visible !important;
+        max-height: none !important;
+      }
+
+      table {
+        width: 100% !important;
+        page-break-inside: avoid !important;
+      }
+
+      /* 4. 微調表格間距 */
+      th {
+        background-color: #0f172a !important;
+        color: white !important;
+        padding: 6px 4px !important;
+      }
+
+      td {
+        padding: 4px 2px !important;
+      }
+
+      /* 讓下拉選單在列印時隱藏箭頭，偽裝成最乾淨的純報表文字 */
+      select {
+        background: transparent !important;
+        border: none !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        text-align: center !important;
+        width: 100% !important;
+        color: #000000 !important;
+        font-weight: 500 !important;
+      }
+    }
+  </style>
 
 </head>
+
 <body class="bg-[#f8fafc] text-slate-800 font-sans min-h-screen">
 
 <header class="bg-[#f4d160] shadow-sm px-6 py-3 flex items-center justify-between">
