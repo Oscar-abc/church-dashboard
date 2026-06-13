@@ -1337,7 +1337,7 @@ alert('✨ 成功！新會友已安全加入雲端資料庫！');
           // 證道選單額外加上固定頭銜
           let preacherOptionsHtml = memberOptionsHtml + `
             <option value="preacher_1">張茂松 牧師</option>
-            <option value="preacher_2">外請 牧師</option>
+            <option value="preacher_2">外聘講員</option>
           `;
 
           // 精準將名單灌入畫面上季度大表的所有下拉選單
@@ -1433,6 +1433,55 @@ alert('✨ 成功！新會友已安全加入雲端資料庫！');
     </form>
   </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // 🎯 抓取表格中所有橫排（每一週）
+  const rows = document.querySelectorAll('tbody tr');
+
+  rows.forEach(row => {
+    // 抓取當前這一週內所有的下拉選單
+    const selects = row.querySelectorAll('select');
+
+    selects.forEach(select => {
+      // 監聽每一個選單的切換動作
+      select.addEventListener('change', () => {
+        checkDuplicateForEx(row);
+      });
+    });
+  });
+
+  // 🛡️ 核心防錯校對函數
+  function checkDuplicateForEx(row) {
+    const selects = row.querySelectorAll('select');
+    
+    // 用來統計每位同工在「這一週」出現幾次
+    const nameCounts = {};
+
+    // 步驟 1：先清點人數，跳過「未指定 📥」
+    selects.forEach(select => {
+      const name = select.value.trim();
+      if (name && name !== '未指定 📥') {
+        nameCounts[name] = (nameCounts[name] || 0) + 1;
+      }
+    });
+
+    // 步驟 2：根據統計結果，動態幫重複的同工染上粉紅色
+    selects.forEach(select => {
+      const name = select.value.trim();
+      
+      if (nameCounts[name] > 1) {
+        // 🚨 重複了！啟動粉紅警報（Tailwind CSS 樣式樣板）
+        select.className = 'w-full bg-red-50 border-2 border-pink-500 text-red-700 rounded-lg p-1.5 text-xs text-center font-bold shadow-sm transition-all animate-pulse';
+        select.title = `⚠️ 注意：${name} 已在本週重複安排服事！`;
+      } else {
+        // ✅ 正常，安全回歸青年牧區原本的帥氣設定
+        select.className = 'w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500 text-slate-700 transition-all';
+        select.removeAttribute('title');
+      }
+    });
+  }
+});
+</script>
 
 </body>
 </html>
