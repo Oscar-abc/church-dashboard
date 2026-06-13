@@ -396,13 +396,13 @@
         <thead>
           <!-- 頂部橫軸 X軸：服事職分，全文字置中對齊 -->
           <tr class="bg-slate-900 text-white font-medium">
-            <th class="p-4 text-center sticky left-0 bg-slate-900 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-10 min-w-[120px]">日期</th>
-            <th class="p-4 text-center bg-slate-800">證道</th>
-            <th class="p-4 text-center bg-slate-800/90">主領</th>
-            <th class="p-4 text-center bg-slate-800">音投/音控</th>
-            <th class="p-4 text-center bg-slate-800/90">招待</th>
-            <th class="p-4 text-center bg-slate-800">早禱會</th>
-            <th class="p-4 text-center bg-slate-800/90">財務</th>
+<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">日期</th>
+<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">證道</th>
+<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">主領</th>
+<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">音投</th>
+<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">15分鐘破冰</th>
+<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">餐食招待</th>
+<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">禱告會</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-100 bg-white text-slate-700">
@@ -976,10 +976,31 @@ window.toggleScheduleView = function(viewType) {
             alert('✏️ 太棒了！會友資料已成功更新並即時同步！');
           } else {
             // 【分支 B：新增模式】在雲端建立全新隨機文件
-            memberData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+memberData.district = window.currentDistrict || '青年牧區'; // 🎯 強制寫入當前牧區欄位！            
+memberData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
             await db.collection('members').add(memberData);
-            alert('✨ 成功！新會友已安全加入雲端資料庫！');
+alert('✨ 成功！新會友已安全加入雲端資料庫！');
+        
+        // 🎯 補上這 3 行安全防護指令：新增成功時，自動叫網頁重新抓一次最新名單
+// 1. 呼叫原本的重新撈取函式
+// 1. 呼叫原本的重新撈取函式
+        if (typeof fetchMembers === 'function') {
+          fetchMembers();
+        }
+        
+        // 2. ⚡ 終極保險線路：自動去抓選單並模擬點擊！
+        setTimeout(() => {
+          const targetButton = document.querySelector('.sub-member-list[data-district="青年牧區"]') || 
+                               document.querySelector('.sub-member-list') || 
+                               document.getElementById('btn-member-list');
+          if (targetButton) {
+            console.log("🚀 偵測到新增成功，大腦全自動模擬點擊選單更新畫面！");
+            targetButton.click();
+          } else {
+            window.location.reload();
           }
+        }, 100);
+      }
           
           // 成功後執行你截圖中的關閉彈窗功能
           closeModal(); 
