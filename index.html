@@ -97,6 +97,7 @@
         <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
           <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
 <a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="成人牧區">會友名單</a>
+<a href="#" class="sub-service-team block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="成人牧區">服事團隊</a>
 <button type="button" onclick="window.currentDistrict='成人牧區'; refreshServiceScheduleHeader('成人牧區'); loadDistrictMembersToDropdowns('成人牧區'); switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
         </div>
       </div>
@@ -108,6 +109,7 @@
         <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
           <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
 <a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="青年牧區">會友名單</a>
+<a href="#" class="sub-service-team block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="青年牧區">服事團隊</a>
 <button type="button" onclick="window.currentDistrict='青年牧區'; refreshServiceScheduleHeader('青年牧區'); loadDistrictMembersToDropdowns('青年牧區'); switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
         </div>
       </div>
@@ -119,6 +121,7 @@
         <div class="dropdown-menu absolute left-0 mt-1 w-36 bg-white border border-slate-200 rounded-md shadow-lg hidden z-50">
           <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-t-md">聚會資訊</a>
 <a href="#" class="sub-member-list block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="兒童牧區">會友名單</a>
+<a href="#" class="sub-service-team block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100" data-district="兒童牧區">服事團隊</a>
 <button type="button" onclick="window.currentDistrict='兒童牧區'; refreshServiceScheduleHeader('兒童牧區'); loadDistrictMembersToDropdowns('兒童牧區'); switchView('view-service-schedule')" class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-b-md focus:outline-none">服事表</button>
         </div>
       </div>
@@ -738,6 +741,55 @@
   </div>
 </main>
 
+<main id="service-team-view" class="max-w-7xl mx-auto p-6 hidden">
+  <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+    
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div class="flex items-center space-x-2">
+        <span class="text-xl">👥</span>
+<h2 id="service-team-district-title" class="text-lg font-bold text-slate-800">服事團隊管理</h2>
+        <span class="bg-pink-100 text-pink-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">共1人</span>
+      </div>
+      
+      <div class="flex items-center space-x-3">
+        <button id="btn-add-service-team" class="bg-[#e62e8a] text-white px-4 py-2 rounded-xl font-medium text-sm hover:bg-[#c92477] transition-colors shadow-sm focus:outline-none">
+          + 新增
+        </button>
+        <div class="relative">
+          <input type="text" id="search-service-team" placeholder="搜尋姓名或小組..." 
+                 class="border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500 w-64" />
+          <span class="absolute left-3 top-2.5 text-slate-400 text-sm">🔍</span>
+        </div>
+      </div>
+    </div> <div class="overflow-x-auto rounded-lg border border-slate-100">
+      <table class="w-full text-left border-collapse">
+
+        <thead>
+          <tr class="bg-[#0f172a] text-white text-sm font-semibold tracking-wide">
+            <th class="p-3.5 pl-6">姓名</th>
+            <th class="p-3.5">稱謂</th>
+            <th class="p-3.5">聯絡電話</th>
+            <th class="p-3.5">所屬小組</th>
+            <th class="p-3.5">教會職分</th>
+            <th class="p-3.5">受洗狀態</th>
+            <th class="p-3.5">生命培育進度</th>
+            <th class="p-3.5 pr-6">操作</th>
+          </tr>
+        </thead>
+<tbody id="service-team-table-body">
+          <tr>
+            <td colspan="8" class="text-center text-slate-400 py-16 text-sm bg-slate-50/50">
+暫無此牧區服事團隊數據。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</main>
+
+
 <main id="view-calendar" class="max-w-7xl mx-auto p-6 hidden space-y-6">
   <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
     <div class="flex items-center space-x-3">
@@ -1063,6 +1115,28 @@ window.toggleScheduleView = function(viewType) {
         if (menu) menu.classList.add('hidden');
       });
     });
+// 控制服事團隊選單點擊切換
+document.querySelectorAll('.sub-service-team').forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // 切換到我們剛剛做好的服事團隊 HTML 區塊
+        switchView('service-team-view');
+
+        // 設定目前牧區，並更新服事團隊的標題文字
+        currentDistrict = this.getAttribute('data-district') || '成人牧區';
+        const titleEl = document.getElementById('service-team-district-title');
+        if (titleEl) titleEl.innerText = `${currentDistrict} 服事團隊管理`;
+
+        // 🎯 呼叫等等步驟 2 要寫的，專屬抓取服事團隊 Firebase 資料的函式
+        loadServiceTeamMembers(currentDistrict);
+
+        // 點擊後自動把下拉選單藏起來
+        const menu = this.closest('.dropdown-menu');
+        if (menu) menu.classList.add('hidden');
+    });
+});
 
     // 點擊「行事曆」
     const btnCalendar = document.getElementById('btn-calendar');
@@ -1427,6 +1501,59 @@ alert('✨ 成功！新會友已安全加入雲端資料庫！');
           console.error("連動名單失敗:", error);
         });
     };
+
+// 專屬讀取 Firebase 服事團隊數據的函式
+function loadServiceTeamMembers(district) {
+    const tbody = document.getElementById('service-team-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center py-4">資料載入中...</td></tr>';
+
+    // 🎯 核心分家：改連動到獨立的 service_teams 資料夾
+    db.collection('service_teams').where('district', '==', district).get()
+        .then((querySnapshot) => {
+            tbody.innerHTML = '';
+            if (querySnapshot.empty) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center text-slate-400 py-16 text-sm bg-slate-50/50">暫無此牧區服事團隊數據。</td></tr>';
+                return;
+            }
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-100 hover:bg-slate-50/50 transition-colors text-sm text-slate-700";
+                
+                tr.innerHTML = `
+                    <td class="p-3.5 pl-6 font-medium text-slate-900">${data.name || ''}</td>
+                    <td class="p-3.5">${data.title || ''}</td>
+                    <td class="p-3.5 text-slate-500">${data.phone || ''}</td>
+                    <td class="p-3.5">${data.group || ''}</td>
+                    <td class="p-3.5"><span class="px-2 py-1 rounded-full text-xs bg-pink-50 text-pink-600 font-medium">${data.role || ''}</td>
+                    <td class="p-3.5"><span class="px-2 py-1 rounded-full text-xs bg-emerald-50 text-emerald-600 font-medium">${data.status || ''}</span></td>
+                    <td class="p-3.5 text-slate-500">${data.progress || ''}</td>
+                    <td class="p-3.5 pr-6">
+                        <button onclick="deleteServiceTeamMember('${doc.id}', '${district}')" class="text-slate-400 hover:text-red-500 transition-colors p-1"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        })
+        .catch((error) => {
+            console.error("錯誤:", error);
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center text-red-500 py-4">數據載入失敗。</td></tr>';
+        });
+}
+
+// 專屬服事團隊的刪除功能
+function deleteServiceTeamMember(docId, district) {
+    if (confirm('確定要刪除這位服事團隊同工嗎？（此操作不會影響會友名單）')) {
+        db.collection('service_teams').doc(docId).delete()
+            .then(() => {
+                alert('刪除成功！');
+                loadServiceTeamMembers(district);
+            })
+            .catch((error) => console.error("刪除失敗:", error));
+    }
+}
 
 </script>
 
