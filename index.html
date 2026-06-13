@@ -412,13 +412,19 @@
       <span class="text-sm font-bold text-slate-800">未指定 📥</span>
     </div>
 
-    <!-- 5. 餐食招待 -->
-    <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
-      <span class="text-sm font-semibold text-slate-500">餐食招待</span>
+    <!-- 5. 餐食 -->
+<div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
+      <span class="text-sm font-semibold text-slate-500">餐食</span>
       <span class="text-sm font-bold text-slate-800">未指定 📥</span>
     </div>
 
-    <!-- 6. 禱告會 -->
+    <!-- 6. 招待 -->
+    <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
+      <span class="text-sm font-semibold text-slate-500">招待</span>
+      <span class="text-sm font-bold text-slate-800">未指定 📥</span>
+    </div>
+
+    <!-- 7. 禱告會 -->
     <div class="flex items-center justify-between py-3">
       <span class="text-sm font-semibold text-slate-500">禱告會</span>
       <span class="text-sm font-bold text-slate-800">未指定 📥</span>
@@ -435,155 +441,184 @@
       <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">🖨️ 列印班表</button>
     </div>
 <!-- 矩陣大表格滾動容器 (翻轉版：Y軸日期、X軸職分) -->
-    <div class="overflow-x-auto rounded-xl border border-slate-100 shadow-sm">
-      <table class="w-full text-sm text-center border-collapse min-w-[1000px]">
-        <thead>
-          <!-- 頂部橫軸 X軸：服事職分，全文字置中對齊 -->
-          <tr class="bg-slate-900 text-white font-medium">
-<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">日期</th>
-<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">證道</th>
-<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">主領</th>
-<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">音投</th>
-<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">15分鐘破冰</th>
-<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">餐食招待</th>
-<th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">禱告會</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-100 bg-white text-slate-700">
-          
-<tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/04</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+<!-- ==================================================== -->
+          <!-- 📊 青年牧區：第三季服事大表完全體（餐食、招待全面拆分規格） -->
+          <!-- ==================================================== -->
+          <div class="overflow-x-auto rounded-xl border border-slate-100 shadow-sm">
+            <table class="w-full text-sm text-center border-collapse min-w-[1000px]">
+              <thead>
+                <tr class="bg-slate-900 text-white font-medium">
+                  <th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">日期</th>
+                  <th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">證道</th>
+                  <th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">主領</th>
+                  <th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">音投</th>
+                  <th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">15分鐘破冰</th>
+                  <th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">餐食</th>
+                  <th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">招待</th>
+                  <th class="px-4 py-3 text-center text-sm font-semibold text-white tracking-wider">禱告會</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 bg-white text-slate-700">
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/11</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 1 週：07/04 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/04</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/18</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 2 週：07/11 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/11</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/25</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 3 週：07/18 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/18</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/01</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 4 週：07/25 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">07/25</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/08</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 5 週：08/01 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/01</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/15</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 6 週：08/08 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/08</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/22</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 7 週：08/15 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/15</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/29</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 8 週：08/22 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/22</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">09/05</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 9 週：08/29 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">08/29</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">09/12</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 10 週：09/05 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">09/05</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">09/19</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 11 週：09/12 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">09/12</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-          <tr class="hover:bg-slate-50/80 transition-colors">
-            <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">09/26</td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-            <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
-          </tr>
+                <!-- 第 12 週：09/19 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">09/19</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
 
-        </tbody>
-      </table>
-    </div>
+                <!-- 第 13 週：09/26 -->
+                <tr class="hover:bg-slate-50/80 transition-colors">
+                  <td class="p-3.5 text-center font-bold bg-slate-50 sticky left-0 shadow-[2px_0_5px_rgba(0,0,0,0.05)] z-10 text-slate-900">09/26</td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                  <td class="p-2"><select class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-center focus:outline-none focus:border-pink-500"><option>未指定 📥</option></select></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
   </div>
 </main>
 
