@@ -376,51 +376,55 @@
     </div>
   </div>
 
-  <div id="weekly-schedule-card" class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 max-w-2xl mx-auto transition-all">
-    <div class="flex items-center justify-between mb-4 border-b border-slate-50 pb-3">
-      <h3 class="text-lg font-bold text-slate-800">📋 本週主日服事輪值</h3>
-      <span class="text-xs bg-amber-100 text-amber-700 font-semibold px-2.5 py-0.5 rounded-full">成人牧區</span>
-    </div>
 <!-- ==================================================== -->
-            <!-- 📋 青年牧區服事頁：本週服事輪值全新 6 大項目 -->
-            <!-- ==================================================== -->
-            <div class="space-y-4">
-              <!-- 1. 證道 -->
-              <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
-                <span class="text-sm font-semibold text-slate-500">證道</span>
-                <span class="text-sm font-bold text-slate-800">未指定 📥</span>
-              </div>
+<!-- 📋 全牧區通用：本週服事輪值動態卡片骨架 -->
+<!-- ==================================================== -->
+<div id="weekly-schedule-card" class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 max-w-2xl mx-auto transition-all">
+  <div class="flex items-center justify-between mb-4 border-b border-slate-50 pb-3">
+    <h3 class="text-lg font-bold text-slate-800">📋 本週服事輪值</h3>
+    <!-- 🎯 加上 id="current-pastoral-tag"，讓 JS 動態變更「成人牧區」或「青年牧區」字樣與顏色 -->
+    <span id="current-pastoral-tag" class="text-xs bg-amber-100 text-amber-700 font-semibold px-2.5 py-0.5 rounded-full">成人牧區</span>
+  </div>
 
-              <!-- 2. 主領 -->
-              <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
-                <span class="text-sm font-semibold text-slate-500">主領</span>
-                <span class="text-sm font-bold text-slate-800">未指定 📥</span>
-              </div>
+  <!-- 🎯 加上 id="focus-items-container"，讓 JS 自動根據切換的牧區塞入 3 個或 6 個服事項目 -->
+  <div id="focus-items-container" class="space-y-4">
+<!-- 1. 證道 -->
+    <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
+      <span class="text-sm font-semibold text-slate-500">證道</span>
+      <span class="text-sm font-bold text-slate-800">未指定 📥</span>
+    </div>
 
-              <!-- 3. 音投 -->
-              <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
-                <span class="text-sm font-semibold text-slate-500">音投</span>
-                <span class="text-sm font-bold text-slate-800">未指定 📥</span>
-              </div>
+    <!-- 2. 主領 -->
+    <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
+      <span class="text-sm font-semibold text-slate-500">主領</span>
+      <span class="text-sm font-bold text-slate-800">未指定 📥</span>
+    </div>
 
-              <!-- 4. 15分鐘破冰 -->
-              <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
-                <span class="text-sm font-semibold text-slate-500">15分鐘破冰</span>
-                <span class="text-sm font-bold text-slate-800">未指定 📥</span>
-              </div>
+    <!-- 3. 音投 -->
+    <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
+      <span class="text-sm font-semibold text-slate-500">音投</span>
+      <span class="text-sm font-bold text-slate-800">未指定 📥</span>
+    </div>
 
-              <!-- 5. 餐食招待 -->
-              <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
-                <span class="text-sm font-semibold text-slate-500">餐食招待</span>
-                <span class="text-sm font-bold text-slate-800">未指定 📥</span>
-              </div>
+    <!-- 4. 15分鐘破冰 -->
+    <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
+      <span class="text-sm font-semibold text-slate-500">15分鐘破冰</span>
+      <span class="text-sm font-bold text-slate-800">未指定 📥</span>
+    </div>
 
-              <!-- 6. 禱告會 -->
-              <div class="flex items-center justify-between py-3">
-                <span class="text-sm font-semibold text-slate-500">禱告會</span>
-                <span class="text-sm font-bold text-slate-800">未指定 📥</span>
-              </div>
-            </div>
+    <!-- 5. 餐食招待 -->
+    <div class="flex items-center justify-between py-3 border-b border-dashed border-slate-100">
+      <span class="text-sm font-semibold text-slate-500">餐食招待</span>
+      <span class="text-sm font-bold text-slate-800">未指定 📥</span>
+    </div>
+
+    <!-- 6. 禱告會 -->
+    <div class="flex items-center justify-between py-3">
+      <span class="text-sm font-semibold text-slate-500">禱告會</span>
+      <span class="text-sm font-bold text-slate-800">未指定 📥</span>
+    </div>
+  </div>
+</div>
 
   <div id="quarterly-schedule-box" class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 hidden transition-all">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-50 pb-4">
