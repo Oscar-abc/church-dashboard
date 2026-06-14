@@ -873,6 +873,69 @@
   </div>
 </main>
 
+<div id="modal-add-service-team" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 w-full max-w-lg mx-4 relative">
+        <div class="flex items-center justify-between mb-6">
+            <h3 id="st-modal-title" class="text-lg font-bold text-slate-800 flex items-center">
+                <span class="text-pink-600 mr-1.5">+</span> 新增服事團隊同工資料
+            </h3>
+            <button type="button" id="btn-close-st-modal" class="text-slate-400 hover:text-slate-600 transition-colors">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <form id="form-add-service-team" onsubmit="return false;">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">同工姓名 <span class="text-red-500">*</span></label>
+                    <input type="text" id="st-input-name" required placeholder="請輸入姓名" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">稱謂</label>
+                    <select id="st-input-title" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+                        <option value="弟兄">弟兄</option>
+                        <option value="姊妹">姊妹</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">聯絡電話</label>
+                    <input type="text" id="st-input-phone" placeholder="09XX-XXXXXX" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">所屬小組</label>
+                    <input type="text" id="st-input-group" placeholder="例如：喜樂小組" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">教會職分</label>
+                    <select id="st-input-role" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+                        <option value="會友">會友</option>
+                        <option value="同工">同工</option>
+                        <option value="小組長">小組長</option>
+                        <option value="傳道">傳道</option>
+                        <option value="牧師">牧師</option>
+                        <option value="輔導">輔導</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">受洗狀態</label>
+                    <select id="st-input-baptism" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+                        <option value="已受洗">已受洗</option>
+                        <option value="未受洗">未受洗</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">生命培育進度</label>
+                    <input type="text" id="st-input-progress" placeholder="無" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-pink-500">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
+                <button type="button" id="btn-cancel-st-modal" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">取消</button>
+                <button type="button" id="btn-save-service-team" class="px-5 py-2 rounded-xl text-sm font-medium text-white bg-pink-600 hover:bg-pink-700 shadow-sm shadow-pink-100 transition-colors">儲存至雲端</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div id="modal-add-member" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
   <div class="bg-white rounded-2xl shadow-xl border border-slate-100 max-w-md w-full overflow-hidden transform transition-all">
@@ -1554,6 +1617,63 @@ function deleteServiceTeamMember(docId, district) {
             .catch((error) => console.error("刪除失敗:", error));
     }
 }
+
+// ==========================================
+// 🚀 專屬：服事團隊新增與儲存控制大腦
+// ==========================================
+
+// 1. 控制「+ 新增」按鈕打開彈出視窗
+document.getElementById('btn-add-service-team')?.addEventListener('click', () => {
+    document.getElementById('form-add-service-team')?.reset();
+    
+    const stTitle = document.getElementById('st-modal-title');
+    const currentDist = window.currentDistrict || activeDistrict || '常規牧區';
+    if (stTitle) stTitle.innerHTML = `<span class="text-pink-600 mr-1.5">+</span> 新增服事團隊同工 (${currentDist})`;
+    
+    document.getElementById('modal-add-service-team')?.classList.remove('hidden');
+});
+
+// 2. 控制「取消」與「X」按鈕關閉視窗
+const closeSTModal = () => {
+    document.getElementById('modal-add-service-team')?.classList.add('hidden');
+};
+document.getElementById('btn-close-st-modal')?.addEventListener('click', closeSTModal);
+document.getElementById('btn-cancel-st-modal')?.addEventListener('click', closeSTModal);
+
+// 3. 控制「儲存至雲端」按鈕，獨立存入 Firebase service_teams
+document.getElementById('btn-save-service-team')?.addEventListener('click', async () => {
+    const nameEl = document.getElementById('st-input-name');
+    if (!nameEl || !nameEl.value.trim()) {
+        alert('請填寫同工姓名！');
+        return;
+    }
+
+    const currentDist = window.currentDistrict || activeDistrict || '常規牧區';
+
+    const stData = {
+        name: nameEl.value.trim(),
+        title: document.getElementById('st-input-title').value,
+        phone: document.getElementById('st-input-phone').value.trim(),
+        group: document.getElementById('st-input-group').value.trim(),
+        role: document.getElementById('st-input-role').value,
+        status: document.getElementById('st-input-baptism').value,
+        progress: document.getElementById('st-input-progress').value.trim(),
+        district: currentDist,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+        await db.collection('service_teams').add(stData);
+        alert('✨ 成功！新同工已安全加入服事團隊資料庫！');
+        closeSTModal();
+        if (typeof loadServiceTeamMembers === 'function') {
+            loadServiceTeamMembers(currentDist);
+        }
+    } catch (error) {
+        console.error("服事團隊儲存失敗:", error);
+        alert("儲存失敗，請檢查網路或權限。");
+    }
+});
 
 </script>
 
