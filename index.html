@@ -1529,7 +1529,7 @@ alert('✨ 成功！新會友已安全加入雲端資料庫！');
     window.loadDistrictMembersToDropdowns = function(districtName) {
       const activeDistrict = districtName || window.currentDistrict || '成人牧區';
       
-      db.collection('members').where('district', '==', activeDistrict).get()
+      db.collection('service_teams').where('district', '==', activeDistrict).get()
         .then((querySnapshot) => {
           let memberOptionsHtml = '<option value="">未指定 🔽</option>';
           
