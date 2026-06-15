@@ -1167,6 +1167,9 @@ window.toggleScheduleView = function(viewType) {
 
         switchView('view-member-list');
 
+// 🔒 手動強力隱藏服事團隊管理，防止畫面疊加短路
+        document.getElementById('service-team-view')?.classList.add('hidden');
+
         currentDistrict = this.getAttribute('data-district') || '成人牧區';
         const titleEl = document.getElementById('member-list-title');
         if (titleEl) titleEl.innerText = `${currentDistrict} 會友名單管理`;
@@ -1186,6 +1189,9 @@ document.querySelectorAll('.sub-service-team').forEach(link => {
 
         // 切換到我們剛剛做好的服事團隊 HTML 區塊
         switchView('service-team-view');
+
+// 🔒 手動強力隱藏常規會友名單，防止畫面疊加短路
+        document.getElementById('view-member-list')?.classList.add('hidden');
 
         // 設定目前牧區，並更新服事團隊的標題文字
         currentDistrict = this.getAttribute('data-district') || '成人牧區';
