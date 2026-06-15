@@ -752,9 +752,8 @@
       </div>
       
       <div class="flex items-center space-x-3">
-        <button id="btn-add-service-team" class="bg-[#e62e8a] text-white px-4 py-2 rounded-xl font-medium text-sm hover:bg-[#c92477] transition-colors shadow-sm focus:outline-none">
-          + 新增
-        </button>
+<button id="btn-add-service-team" onclick="document.getElementById('modal-add-service-team')?.classList.remove('hidden')" class="bg-[#e62e8a] text-white px-4 py-2 rounded-xl font-medium text-sm hover:bg-[#c92477] transition-colors shadow-sm"> + 新增 </button>
+
         <div class="relative">
           <input type="text" id="search-service-team" placeholder="搜尋姓名或小組..." 
                  class="border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:border-pink-500 w-64" />
@@ -884,7 +883,7 @@
             </button>
         </div>
 
-        <form id="form-add-service-team" onsubmit="return false;">
+<form id="form-add-service-team" onsubmit="return false;">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-slate-700 mb-1">同工姓名 <span class="text-red-500">*</span></label>
@@ -1009,13 +1008,101 @@
 
       <div class="flex items-center justify-end space-x-3 pt-2 mt-4">
         <button type="button" id="btn-cancel-modal" class="bg-slate-100 text-slate-600 px-4 py-2 rounded-lg font-medium text-sm hover:bg-slate-200 transition-colors">取消</button>
-        <button type="submit" class="bg-[#e62e8a] text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-[#c92477] transition-colors shadow-sm">儲存至雲端</button>
+<button type="button" id="btn-save-member" class="bg-[#e62e8a] text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-[#c92477] transition-colors shadow-sm">儲存至雲端</button>
       </div>
     </form>
   </div>
 </div>
 
 <script>
+// ⚡️ 終極復活：手寫補回服事團隊的 Firebase 儲存與寫入大腦
+document.getElementById('btn-save-service-team')?.addEventListener('click', async (e) => {
+    e.preventDefault(); // ⚡️ 強力攔截預設跳轉，讓網頁乖乖留在原地！
+
+const nameEl = document.getElementById('st-input-name');
+    if (!nameEl || !nameEl.value.trim()) {
+        alert('請填寫同工姓名！');
+        return;
+    }
+
+    // 自動偵測目前網頁正在操作哪個牧區
+    const currentDist = window.currentDistrict || currentDistrict || activeDistrict || '成人牧區';
+
+    // 準備寫入 Firebase 的完整資料包
+    const stData = {
+        name: nameEl.value.trim(),
+        title: document.getElementById('st-input-title')?.value || '姊妹',
+        phone: document.getElementById('st-input-phone')?.value.trim() || '',
+        group: document.getElementById('st-input-group')?.value.trim() || '',
+        role: document.getElementById('st-input-role')?.value || '會友',
+        status: document.getElementById('st-input-baptism')?.value || '已受洗',
+        progress: document.getElementById('st-input-progress')?.value.trim() || '無',
+        district: currentDist,
+        createdAt: new Date()
+    };
+
+    try {
+        // 直接寫入雲端 Firebase 的 service_teams 資料庫
+        await db.collection('service_teams').add(stData);
+        alert('服事同工新增成功！');
+
+        // 儲存成功後，自動關閉彈出視窗並清空表單
+        document.getElementById('modal-add-service-team')?.classList.add('hidden');
+        document.getElementById('form-add-service-team')?.reset();
+
+// ⚡️ 免重新整理即時刷新特遣小隊：直接在原地重新撈取該牧區名單，啪一聲刷新畫面！
+        const tbody = document.getElementById('service-team-table-body');
+        if (tbody) {
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center py-4">正在即時同步名單...</td></tr>';
+            
+            db.collection('service_teams').where('district', '==', currentDist).get().then((querySnapshot) => {
+                tbody.innerHTML = '';
+                if (querySnapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-slate-500 py-4">暫無此牧區服事團隊數據。</td></tr>';
+                } else {
+                    querySnapshot.forEach((doc) => {
+                        const member = doc.data();
+                        tbody.innerHTML += `
+                            <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors text-sm">
+                                <td class="px-6 py-4 font-medium text-slate-900">${member.name || ''}</td>
+                                <td class="px-6 py-4 text-slate-600">${member.title || '姊妹'}</td>
+                                <td class="px-6 py-4 text-slate-600">${member.phone || ''}</td>
+                                <td class="px-6 py-4 text-slate-600">${member.group || ''}</td>
+                                <td class="px-6 py-4 text-slate-600">${member.role || '會友'}</td>
+                                <td class="px-6 py-4 text-slate-600">${member.status || '已受洗'}</td>
+                                <td class="px-6 py-4 text-slate-600">${member.progress || '無'}</td>
+                                <td class="px-6 py-4 text-center">
+                                    <button onclick="deleteServiceTeam('${doc.id}')" class="text-red-500 hover:text-red-700 font-medium">刪除</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+                // 同步更新左上角人數徽章（最強鐵證）
+                const badgeEl = document.getElementById('st-count-badge');
+                if (badgeEl) badgeEl.textContent = `共 ${querySnapshot.size || 0} 人`;
+            });
+        }
+
+    } catch (error) {
+        console.error('儲存服事團隊失敗：', error);
+        alert('儲存失敗，請檢查網路。');
+    }
+});
+
+// ⚡️ 終極防禦：確保網頁所有 HTML 元件全部載入完畢後，才啟動按鈕監聽，徹底防止點擊失效！
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 讓常規會友的桃紅色儲存按鈕復活
+    document.getElementById('btn-save-member')?.addEventListener('click', function() {
+        document.getElementById('form-add-member')?.requestSubmit();
+    });
+
+    // 2. 讓服事團隊的粉紅色儲存按鈕確實導電
+    document.getElementById('btn-save-service-team')?.addEventListener('click', function() {
+        document.getElementById('form-add-service-team')?.requestSubmit();
+    });
+});
+
 // ----------------------------------------------------
     // 🔥 Firebase 初始化設定（已成功替換為 tccic-webV2 真實金鑰！）
     // ----------------------------------------------------
@@ -1606,14 +1693,18 @@ function loadServiceTeamMembers(district) {
                 tbody.appendChild(tr);
             });
 // 📊 服事團隊專屬：網頁自動數表格行數，有多少人就秀多少人
-        const stCount = document.getElementById('service-team-table-body')?.querySelectorAll('tr').length || 0;
-        const stBadge = document.getElementById('st-count-badge');
-        if (stBadge) stBadge.textContent = `共 ${stCount} 人`;
-        })
-        .catch((error) => {
-            console.error("錯誤:", error);
-            tbody.innerHTML = '<tr><td colspan="8" class="text-center text-red-500 py-4">數據載入失敗。</td></tr>';
-        });
+// 📊 服事團隊專屬：加上定時器，確保網頁把最新名單畫完後才精準計算人數！
+// ⚡️ 刪除 setTimeout 後，在此處精準補上這段最強鐵證導線：
+        const totalCount = querySnapshot.size || 0;
+        const badgeEl = document.getElementById('st-count-badge');
+        if (badgeEl) {
+            badgeEl.textContent = `共 ${totalCount} 人`;
+        }
+})
+.catch((error) => {
+    console.error("錯誤：", error);
+    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-red-500 py-4">數據載入失敗。</td></tr>';
+});
 }
 
 // 專屬服事團隊的刪除功能
