@@ -748,7 +748,7 @@
       <div class="flex items-center space-x-2">
         <span class="text-xl">👥</span>
 <h2 id="service-team-district-title" class="text-lg font-bold text-slate-800">服事團隊管理</h2>
-        <span class="bg-pink-100 text-pink-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">共1人</span>
+<span id="st-count-badge" class="bg-pink-100 text-pink-600 text-xs font-semibold px-2.5 py-0.5 rounded-full">共 0 人</span>
       </div>
       
       <div class="flex items-center space-x-3">
@@ -1605,6 +1605,10 @@ function loadServiceTeamMembers(district) {
                 `;
                 tbody.appendChild(tr);
             });
+// 📊 服事團隊專屬：網頁自動數表格行數，有多少人就秀多少人
+        const stCount = document.getElementById('service-team-table-body')?.querySelectorAll('tr').length || 0;
+        const stBadge = document.getElementById('st-count-badge');
+        if (stBadge) stBadge.textContent = `共 ${stCount} 人`;
         })
         .catch((error) => {
             console.error("錯誤:", error);
