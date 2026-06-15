@@ -1340,7 +1340,7 @@ document.querySelectorAll('.sub-service-team').forEach(link => {
             alert('✏️ 太棒了！會友資料已成功更新並即時同步！');
           } else {
             // 【分支 B：新增模式】在雲端建立全新隨機文件
-memberData.district = window.currentDistrict || '青年牧區'; // 🎯 強制寫入當前牧區欄位！            
+memberData.district = currentDistrict;            
 memberData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
             await db.collection('members').add(memberData);
 alert('✨ 成功！新會友已安全加入雲端資料庫！');
@@ -1354,7 +1354,7 @@ alert('✨ 成功！新會友已安全加入雲端資料庫！');
         
         // 2. ⚡ 終極保險線路：自動去抓選單並模擬點擊！
         setTimeout(() => {
-          const targetButton = document.querySelector('.sub-member-list[data-district="青年牧區"]') || 
+const targetButton = document.querySelector(`.sub-member-list[data-district="${currentDistrict}"]`)
                                document.querySelector('.sub-member-list') || 
                                document.getElementById('btn-member-list');
           if (targetButton) {
